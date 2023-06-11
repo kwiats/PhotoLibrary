@@ -19,12 +19,17 @@ from django.conf.urls.static import static
 from django.urls import path, include
 from rest_framework import routers
 from photos.views import PhotoViewSet
+from authentication.views import TokenViews
+
 
 router = routers.SimpleRouter()
 router.register(r"photo", PhotoViewSet)
 
+
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/", include(router.urls), name="photos-api"),
+    path('api/login/', TokenViews.as_view(), name='token_obtain_pair'),
     path("photo/", include("photos.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
