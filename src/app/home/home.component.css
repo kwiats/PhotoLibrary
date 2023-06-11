@@ -1,0 +1,28 @@
+.container{
+  display: grid;
+  grid-template-columns: repeat(3, minmax(200px, 400px));
+  grid-auto-flow: dense;
+  column-gap: 5px;
+  align-content: center;
+  justify-items: stretch;
+  justify-content: center;
+}
+.column{
+  display: flex;
+  margin: 0;
+  padding: 0;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: stretch;
+  align-items: center;
+}
+.photo{
+  margin: 0;
+  padding: 0;
+}
+.photo img{
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  object-fit: cover;
+}

@@ -1,0 +1,23 @@
+<app-header></app-header>
+<div class="container">
+  <div cdkDropList class="column" #result_1List="cdkDropList" [cdkDropListData]="result_1"
+    [cdkDropListConnectedTo]="[result_2List, result_3List]" (cdkDropListDropped)="drop($event)">
+    <div class="photo" *ngFor="let photo of result_1" cdkDrag [cdkDragData]="photo">
+      <img src="{{photo.photo}}">
+    </div>
+  </div>
+  <div class="column" cdkDropList #result_2List="cdkDropList" [cdkDropListData]="result_2"
+    [cdkDropListConnectedTo]="[result_3List, result_1List]" (cdkDropListDropped)="drop($event)">
+    <div class="photo" *ngFor="let photo of result_2" cdkDrag [cdkDragData]="photo">
+      <img src="{{photo.photo}}">
+    </div>
+  </div>
+  <div class="column" cdkDropList #result_3List="cdkDropList" [cdkDropListData]="result_3"
+    [cdkDropListConnectedTo]="[result_1List, result_2List]" (cdkDropListDropped)="drop($event)">
+    <div class="photo" *ngFor="let photo of result_3" cdkDrag [cdkDragData]="photo">
+      <img src="{{photo.photo}}">
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>
+
