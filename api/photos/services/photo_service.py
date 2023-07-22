@@ -1,5 +1,6 @@
 import uuid
 from io import BytesIO
+
 from typing import Type
 
 from PIL import Image
