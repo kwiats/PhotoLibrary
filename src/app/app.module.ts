@@ -13,6 +13,8 @@ import {PageComponent} from './page/page.component';
 import {HomeComponent} from './home/home.component';
 import {RouterModule} from "@angular/router";
 import {HttpClientModule} from "@angular/common/http";
+import { LoginComponent } from './login/login/login.component';
+import {FormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -23,6 +25,7 @@ import {HttpClientModule} from "@angular/common/http";
     PhotosComponent,
     PageComponent,
     HomeComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -31,6 +34,7 @@ import {HttpClientModule} from "@angular/common/http";
     HttpClientModule,
     DragDropModule,
     RouterModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Photo } from './core/images/models/photo.model';
+import {ImagesService} from "./core/images/services/images.service";
 
 @Component({
   selector: 'app-root',
@@ -11,16 +12,24 @@ export class AppComponent implements OnInit {
   result_2: Photo[] = [];
   result_3: Photo[] = [];
 
-  photos: Photo[] = [
-    { slug: 'image_1',photo: './../assets/images/image_1.jpg' },
-    { slug: 'image_1',photo: './../assets/images/image_2.jpeg' },
-    { slug: 'image_1',photo: './../assets/images/image_3.jpg' },
-    { slug: 'image_1',photo: './../assets/images/image_4.jpg' },
-    { slug: 'image_1',photo: './../assets/images/image_5.jpg' },
-    { slug: 'image_1',photo: './../assets/images/image_1.jpg' },
-  ];
+    photos: any;
+
+  constructor(private photoService: ImagesService) {
+
+
+  }
+
   ngOnInit() {
-    this.spliterData();
+    this.loadData()
+  }
+
+
+  loadData() {
+    this.photoService.getImages().subscribe((response) => {
+      this.photos = response
+      this.spliterData();
+    })
+
   }
   spliterData() {
     for (let i = 0; i < this.photos.length; i++) {

@@ -4,6 +4,8 @@ export interface Photo {
   created?: string;
   updated?: string;
   photo: string;
+  column: number;
+  order: number;
 }
 
 export interface Login {
