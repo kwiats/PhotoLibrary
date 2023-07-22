@@ -1,10 +1,7 @@
 <div class="footer">
-  <p>Natalia Strzelczyk Fotografia</p>
+  <h1>Natalia Strzelczyk </h1>
   <div class="div">
-    <a type="button" routerLink="/home" routerLinkActive="active" ariaCurrentWhenActive="page" >portfolio</a>
-    <a type="button" routerLink="/page/about-me" routerLinkActive="active" ariaCurrentWhenActive="page" >about me</a>
-    <a type="button" routerLink="/edit/" routerLinkActive="active" ariaCurrentWhenActive="page">edit</a>
-
+    <a type="button" *ngFor="let item of menu" routerLink="{{item.routingLink}}" routerLinkActive="active" ariaCurrentWhenActive="page" >{{item.title}}</a>
   </div>
   <a href="https://www.instagram.com/natalia.strzelczyk_/"><img src="./../../assets/icons/styles.png" alt=""></a>
 </div>

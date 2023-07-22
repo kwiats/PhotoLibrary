@@ -41,3 +41,7 @@
 .cdk-drag-animating {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
+.custom-file-label{
+  background: rgba(186, 189, 189, 0.76);
+
+}

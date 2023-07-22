@@ -18,23 +18,16 @@ class PositionsViewSet(viewsets.ModelViewSet):
 
 class PhotoView(APIView):
     def get(self, request):
-        photoService = PhotoService()
-        photos = photoService.get_photos()
+        photos = PhotoService.get_photos()
+
         serializer = PhotoSerializer(photos, many=True)
         return Response(serializer.data)
 
     def post(self, request, *args, **kwargs):
         files = request.FILES.getlist('file')
         message = ''
-        photoService = PhotoService()
-        photoService.create_photo(files)
-        # photos_to_create = []
-        #
-        # for file in files:
-        #     photo = Photo.objects.create(photo=file)
-        #     photos_to_create.append(photo)
-        #
-        # Photo.objects.bulk_create(photos_to_create)
+
+        PhotoService.create_photo(files)
 
         return Response({'message': message})
 

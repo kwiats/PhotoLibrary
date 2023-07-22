@@ -3,17 +3,17 @@
 <div class="container">
   <div class="column">
     <div class="photo" *ngFor="let photo of result_1">
-      <img src="{{photo.photo}}">
+      <img src="{{readFile(photo.photo)}}">
     </div>
   </div>
   <div class="column">
     <div class="photo" *ngFor="let photo of result_2">
-      <img src="{{photo.photo}}">
+      <img src="{{readFile(photo.photo)}}">
     </div>
   </div>
   <div class="column">
     <div class="photo" *ngFor="let photo of result_3">
-      <img src="{{photo.photo}}">
+      <img src="{{readFile(photo.photo)}}">
     </div>
   </div>
 </div>
