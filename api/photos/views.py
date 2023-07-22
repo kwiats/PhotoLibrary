@@ -51,17 +51,8 @@ class PhotoPositionViews(APIView):
             '3': request.data.get('3')
         }
 
-        for column_id, data in columns.items():
-            loaded_data = json.loads(data)
-            for i, photo in enumerate(loaded_data):
-                try:
-                    photo = Photo.objects.get(uuid=photo['uuid'])
-                    photo.column_id = column_id
-                    photo.order = i
-                    photo.save()
-                except ObjectDoesNotExist:
-                    pass
+        PhotoService.update_photo(columns=columns)
 
-        configuration_photos = PhotoPositions.objects.create(columns=columns)
+        PhotoPositions.objects.create(columns=columns)
 
         return JsonResponse({'message': 'Configuration saved successfully.'})
