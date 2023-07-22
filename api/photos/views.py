@@ -1,29 +1,74 @@
+import json
+
+from django.core.exceptions import ObjectDoesNotExist
+from django.http import JsonResponse
 from rest_framework import viewsets
-from photos.models import Photo
-from photos.serializers import PhotoSerializers
-from django.views.generic import CreateView, ListView, DeleteView, UpdateView
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from photos.models import Photo, PhotoPositions
+from photos.serializers import PhotoSerializer, PhotoPositionsSerializer
+from photos.services.photo_service import PhotoService
 
 
-class PhotoViewSet(viewsets.ModelViewSet):
-    serializer_class = PhotoSerializers
-    queryset = Photo.objects.all()
+class PositionsViewSet(viewsets.ModelViewSet):
+    serializer_class = PhotoPositionsSerializer
+    queryset = PhotoPositions.objects.all()
 
 
-class PhotoCreateView(CreateView):
-    model = Photo
-    fields = "__all__"
+class PhotoView(APIView):
+    def get(self, request):
+        photoService = PhotoService()
+        photos = photoService.get_photos()
+        serializer = PhotoSerializer(photos, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, *args, **kwargs):
+        files = request.FILES.getlist('file')
+        message = ''
+        photoService = PhotoService()
+        photoService.create_photo(files)
+        # photos_to_create = []
+        #
+        # for file in files:
+        #     photo = Photo.objects.create(photo=file)
+        #     photos_to_create.append(photo)
+        #
+        # Photo.objects.bulk_create(photos_to_create)
+
+        return Response({'message': message})
 
 
-class PhotoListView(ListView):
-    model = Photo
-    template_name = "index.html"
+class PhotoPositionViews(APIView):
+    def get(self, request):
+        latest_configuration = PhotoPositions.objects.order_by('-created_date')
+        latest_configuration = latest_configuration.first()
 
+        if latest_configuration is None:
+            return JsonResponse({'message': 'No configurations found.'}, status=404)
 
-class PhotoDeleteView(DeleteView):
-    model = Photo
-    template_name = "index.html"
+        columns = latest_configuration.columns
 
+        return JsonResponse({'columns': columns})
 
-class PhotoUpdateView(UpdateView):
-    model = Photo
-    template_name = "index.html"
+    def post(self, request):
+        columns = {
+            '1': request.data.get('1'),
+            '2': request.data.get('2'),
+            '3': request.data.get('3')
+        }
+
+        for column_id, data in columns.items():
+            loaded_data = json.loads(data)
+            for i, photo in enumerate(loaded_data):
+                try:
+                    photo = Photo.objects.get(uuid=photo['uuid'])
+                    photo.column_id = column_id
+                    photo.order = i
+                    photo.save()
+                except ObjectDoesNotExist:
+                    pass
+
+        configuration_photos = PhotoPositions.objects.create(columns=columns)
+
+        return JsonResponse({'message': 'Configuration saved successfully.'})

@@ -13,23 +13,21 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib import admin
 from django.urls import path, include
-from rest_framework import routers
-from photos.views import PhotoViewSet
-from authentication.views import TokenViews
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
-
-router = routers.SimpleRouter()
-router.register(r"photo", PhotoViewSet)
-
-
+from authentication.views import AuthenticationView
+from photos.views import PhotoPositionViews, PhotoView
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
-    path("api/", include(router.urls), name="photos-api"),
-    path('api/login/', TokenViews.as_view(), name='token_obtain_pair'),
-    path("photo/", include("photos.urls")),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+                  path("admin/", admin.site.urls),
+                  path("login/", AuthenticationView.as_view(), name='login'),
+                  path("api/photo/", PhotoView.as_view(), name="photos-api"),
+                  path("api/photo-positions/", PhotoPositionViews.as_view(), name="configuration_photos"),
+                  path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
+                  path("api/token/refresh", TokenRefreshView.as_view(), name="token_refresh"),
+                  path("photo/", include("photos.urls")),
+              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
