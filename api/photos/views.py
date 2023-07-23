@@ -19,16 +19,13 @@ class PositionsViewSet(viewsets.ModelViewSet):
 class PhotoView(APIView):
     def get(self, request):
         photos = PhotoService.get_photos()
-
         serializer = PhotoSerializer(photos, many=True)
         return Response(serializer.data)
 
     def post(self, request, *args, **kwargs):
         files = request.FILES.getlist('file')
-        message = ''
-
+        message = f'Uploaded {len(files)} files to server'
         PhotoService.create_photo(files)
-
         return Response({'message': message})
 
 

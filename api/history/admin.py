@@ -8,7 +8,4 @@ class HistoryAdmin(admin.ModelAdmin):
     list_display = ["uuid_object", "previous_state", "current_state"]
 
 
-
-# Register your models here.
 admin.site.register(HistoryModel, HistoryAdmin)
-

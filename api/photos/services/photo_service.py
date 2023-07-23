@@ -1,6 +1,9 @@
 import json
+from typing import Type
 
 from django.core.exceptions import ObjectDoesNotExist
+from rest_framework import status
+from rest_framework.response import Response
 
 from photos.interfaces.photo_interface import PhotoInterface
 from photos.serializers import PhotoSerializer
@@ -20,6 +23,10 @@ class PhotoService:
             name = _generator_photo_name()
 
             image = PhotoInterface.create(photo_name=name, photo_file=file)
+
+            if image is None:
+                message = f'Cannot upload this photo'
+                return Response({'error': message}, status=status.HTTP_404_NOT_FOUND)
 
             result.append(image)
 
