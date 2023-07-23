@@ -9,7 +9,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class PageComponent implements OnInit {
   constructor(private route: ActivatedRoute, private router: Router) {
     const param = this.route.snapshot.paramMap.get('slug');
-    console.log(param);
   }
   ngOnInit(): void {}
 }

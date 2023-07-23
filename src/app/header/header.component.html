@@ -1,7 +1,11 @@
-<div class="footer">
-  <h1>Natalia Strzelczyk </h1>
-  <div class="div">
-    <a type="button" *ngFor="let item of menu" routerLink="{{item.routingLink}}" routerLinkActive="active" ariaCurrentWhenActive="page" >{{item.title}}</a>
+<div class="header">
+  <div class="title">
+    <h1>natalia strzelczyk </h1>
   </div>
-  <a href="https://www.instagram.com/natalia.strzelczyk_/"><img src="./../../assets/icons/styles.png" alt=""></a>
+  <div class="menu">
+    <span *ngFor="let item of menu" routerLink="{{item.routingLink}}" routerLinkActive="active" ariaCurrentWhenActive="page" [className]="isActivePage(item.routingLink)" >{{item.title | titlecase}}</span>
+  </div>
+  <div class="socials">
+      <a href="https://www.instagram.com/natalia.strzelczyk_/"><img src="./../../assets/icons/styles.png" alt=""></a>
+  </div>
 </div>
