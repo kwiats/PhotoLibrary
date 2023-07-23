@@ -8,7 +8,7 @@ import {environment} from "../../environments/environment";
 @Component({
     selector: 'app-photos',
     templateUrl: './photos.component.html',
-    styleUrls: ['./photos.component.css'],
+    styleUrls: ['./photos.component.scss'],
 })
 export class PhotosComponent implements OnInit {
     constructor(private route: ActivatedRoute, private router: Router, public photoService: ImagesService) {
@@ -26,7 +26,7 @@ export class PhotosComponent implements OnInit {
     options = [
         {
             name: 'Delete',
-            icon: 'fas fa-trash',
+            icon: 'fa-solid fa-trash',
             function: (photo: Photo) => this.deletePhoto(photo)
         }
     ]
@@ -63,6 +63,7 @@ export class PhotosComponent implements OnInit {
             this.photoService.uploadFile(formData);
             this.selectedFiles = []
             this.isDisabled = true
+            this.loadData()
         } else {
             console.log('No files selected.');
         }
