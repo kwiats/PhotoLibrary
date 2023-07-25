@@ -19,15 +19,13 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
-from authentication.views import AuthenticationView
 from photos.views import PhotoPositionViews, PhotoView
 
 urlpatterns = [
                   path("admin/", admin.site.urls),
-                  path("login/", AuthenticationView.as_view(), name='login'),
                   path("api/photo/", PhotoView.as_view(), name="photos-api"),
                   path("api/photo-positions/", PhotoPositionViews.as_view(), name="configuration_photos"),
-                  path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
-                  path("api/token/refresh", TokenRefreshView.as_view(), name="token_refresh"),
+                  path("api/login/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
+                  path("api/login/refresh", TokenRefreshView.as_view(), name="token_refresh"),
                   path("photo/", include("photos.urls")),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
