@@ -28,6 +28,10 @@ class PhotoView(APIView):
         PhotoService.create_photo(files)
         return Response({'message': message})
 
+    def delete(self, request):
+        message = f'Image is deleted'
+        return Response({'message': message})
+
 
 class PhotoPositionViews(APIView):
     def get(self, request):
