@@ -8,17 +8,28 @@ import {environment} from "../../environments/environment";
 @Component({
     selector: 'app-photos',
     templateUrl: './photos.component.html',
-    styleUrls: ['./photos.component.css'],
+    styleUrls: ['./photos.component.scss'],
 })
 export class PhotosComponent implements OnInit {
     constructor(private route: ActivatedRoute, private router: Router, public photoService: ImagesService) {
     }
+
     isDisabled: boolean = true
     selectedFiles: any[] = [];
+
+    optionPhoto: any;
 
     result_1: Photo[] = [];
     result_2: Photo[] = [];
     result_3: Photo[] = [];
+
+    options = [
+        {
+            name: 'Delete',
+            icon: 'fa-solid fa-trash',
+            function: (photo: Photo) => this.deletePhoto(photo)
+        }
+    ]
 
     photos: any;
 
@@ -52,6 +63,7 @@ export class PhotosComponent implements OnInit {
             this.photoService.uploadFile(formData);
             this.selectedFiles = []
             this.isDisabled = true
+            this.loadData()
         } else {
             console.log('No files selected.');
         }
@@ -122,5 +134,21 @@ export class PhotosComponent implements OnInit {
     readFile(file: string) {
         return environment.apiUrl + file
     }
+
+    showOptions(photo: Photo) {
+        if (this.optionPhoto === photo) {
+            this.optionPhoto = null
+        } else {
+            this.optionPhoto = photo
+        }
+
+
+        console.log('show options ' + this.optionPhoto)
+    }
+
+    deletePhoto(photo: Photo) {
+        console.log('delete ' + photo)
+    }
+
 }
 

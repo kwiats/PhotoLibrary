@@ -1,3 +1,4 @@
+import uuid
 from typing import Union
 
 from django.db import transaction
@@ -21,3 +22,11 @@ class PhotoInterface:
             image.full_clean()
             image.save()
             return image
+
+    @staticmethod
+    def update(*, photo_id: uuid.UUID, column_id, order_id):
+        with transaction.atomic():
+            photo = Photo.objects.get(uuid=photo_id)
+            photo.column_id = column_id
+            photo.order = order_id
+            photo.save()

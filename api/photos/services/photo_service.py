@@ -1,12 +1,11 @@
-import uuid
-from io import BytesIO
-
+import json
 from typing import Type
 
-from PIL import Image
+from django.core.exceptions import ObjectDoesNotExist
+from rest_framework import status
+from rest_framework.response import Response
 
 from photos.interfaces.photo_interface import PhotoInterface
-from photos.models import Photo
 from photos.serializers import PhotoSerializer
 from photos.utils.photo_utils import _convert_object_to_worst_quality, _generator_photo_name
 
@@ -25,6 +24,23 @@ class PhotoService:
 
             image = PhotoInterface.create(photo_name=name, photo_file=file)
 
+            if image is None:
+                message = f'Cannot upload this photo'
+                return Response({'error': message}, status=status.HTTP_404_NOT_FOUND)
+
             result.append(image)
 
         return PhotoSerializer(result, many=True).data
+
+    @staticmethod
+    def update_photo(*, columns: dict) -> None:
+        for column_id, data in columns.items():
+            loaded_data = json.loads(data)
+            for order, photo in enumerate(loaded_data):
+                try:
+                    photo_id = photo['uuid']
+                    PhotoInterface.update(photo_id=photo_id,
+                                          column_id=column_id,
+                                          order_id=order)
+                except ObjectDoesNotExist:
+                    pass

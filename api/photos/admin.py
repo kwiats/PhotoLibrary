@@ -13,6 +13,5 @@ class PhotoPositionsAdmin(admin.ModelAdmin):
     list_display = ["uuid", "created_date"]
 
 
-# Register your models here.
 admin.site.register(Photo, PhotoAdmin)
 admin.site.register(PhotoPositions, PhotoPositionsAdmin)
