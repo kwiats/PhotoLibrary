@@ -1,14 +1,14 @@
-export interface Photo {
-  id?: number;
-  slug: string;
-  created?: string;
-  updated?: string;
-  photo: string;
-  column: number;
-  order: number;
+export interface User {
+    username: string,
+    email: string
 }
 
 export interface Login {
-  username: string;
-  password: string;
+    username: string;
+    password: string;
+}
+
+export interface TokenPair {
+    access: string;
+    refresh: string;
 }

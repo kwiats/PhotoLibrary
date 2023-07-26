@@ -22,11 +22,11 @@ export class HeaderComponent {
             authentication: false
         },
 
-            {
-                title: 'edit',
-                routingLink: '/edit/',
-                authentication: true
-            },
+        {
+            title: 'edit',
+            routingLink: '/auth/edit/',
+            authentication: true
+        },
     ]
 
     constructor(private router: Router, private activatedRoute: ActivatedRoute) {
@@ -34,7 +34,7 @@ export class HeaderComponent {
 
     isActivePage(menuUrl: string) {
         const currentUrl = this.router.url
-        if(currentUrl === menuUrl){
+        if (currentUrl === menuUrl) {
             return 'active'
         }
         return null

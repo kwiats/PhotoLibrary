@@ -13,8 +13,9 @@ import {PageComponent} from './page/page.component';
 import {HomeComponent} from './home/home.component';
 import {RouterModule} from "@angular/router";
 import {HttpClientModule} from "@angular/common/http";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
+import {AuthenticationComponent} from './authentication/authentication.component';
 
 
 @NgModule({
@@ -25,6 +26,7 @@ import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
         PhotosComponent,
         PageComponent,
         HomeComponent,
+        AuthenticationComponent,
     ],
     imports: [
         FontAwesomeModule,
@@ -35,6 +37,7 @@ import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
         DragDropModule,
         RouterModule,
         FormsModule,
+        ReactiveFormsModule,
     ],
     providers: [],
     bootstrap: [AppComponent],
