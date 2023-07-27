@@ -38,6 +38,25 @@ export class AuthGuard {
         }
     }
 
+    isLogged(): boolean {
+        const access = window.localStorage.getItem('access');
+        const refresh = window.localStorage.getItem('refresh');
+        if (access) {
+            const accessObject = JSON.parse(access);
+            const jwtContent = jwt_decode(accessObject.idToken || accessObject);
+
+            // @ts-ignore
+            const isExpired = jwtContent.exp < (new Date().getTime() / 1000);
+            if (!isExpired && refresh) {
+                // @ts-ignore
+                const secondsLeft = jwtContent.exp - (new Date().getTime() / 1000) - 30;
+                this.setUpdate(JSON.parse(refresh), secondsLeft * 1000);
+            }
+            return true;
+        }
+        return false
+    }
+
     setUpdate(token: string, time: number): void {
         if (this.refreshInterval) {
             clearInterval(this.refreshInterval);
@@ -64,10 +83,8 @@ export class AuthGuard {
 
     logout(): void {
         window.localStorage.removeItem('access');
-        window.localStorage.removeItem('employee');
         window.localStorage.removeItem('refresh');
         window.localStorage.removeItem('login');
-        window.localStorage.removeItem('password');
         if (this.refreshInterval) {
             clearInterval(this.refreshInterval);
         }
