@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {AuthService} from "../core/auth/services/auth.service";
 import {AuthGuard} from "../core/auth/services/auth-guard.service";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
     selector: 'app-authentication',
@@ -17,7 +18,8 @@ export class AuthenticationComponent implements OnInit {
     constructor(
         private authService: AuthService,
         private authGuard: AuthGuard,
-        private router: Router) {
+        private router: Router,
+        private toastrService: ToastrService) {
 
     }
 
@@ -45,6 +47,10 @@ export class AuthenticationComponent implements OnInit {
                 .subscribe(async (result) => {
                     this.authGuard.signInUser(result.access, result.refresh);
                     await this.router.navigate(['/', 'home']);
+                    this.toastrService.success('Witaj ponownie!', 'Zalogowano się poprawnie ', {
+                        timeOut: 3000,
+                        progressAnimation: 'decreasing'
+                    });
                 })
         }
     }

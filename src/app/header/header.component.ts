@@ -1,6 +1,8 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AuthGuard} from "../core/auth/services/auth-guard.service";
+import {ToastrService} from "ngx-toastr";
+import {take} from "rxjs";
 
 @Component({
     selector: 'app-header',
@@ -25,7 +27,10 @@ export class HeaderComponent {
 
     ]
 
-    constructor(private router: Router, private activatedRoute: ActivatedRoute, private authService: AuthGuard) {
+    constructor(private router: Router,
+                private activatedRoute: ActivatedRoute,
+                private authService: AuthGuard,
+                private toastrService: ToastrService) {
         if (this.authService.isLogged()) {
             this.isLogged = true
             this.loadMenu()
@@ -52,7 +57,7 @@ export class HeaderComponent {
                 },
                 {
                     title: 'about',
-                    routingLink: '/page/about-me',
+                    routingLink: '/page/about',
                 },
                 {
                     title: 'edit',
@@ -68,7 +73,7 @@ export class HeaderComponent {
                 },
                 {
                     title: 'about',
-                    routingLink: '/page/about-me',
+                    routingLink: '/page/about',
                 },
             ]
         }
@@ -77,6 +82,10 @@ export class HeaderComponent {
     async loggout() {
         await this.authService.logout()
         await this.router.navigate(['/', 'home'])
+        this.toastrService.success('', 'Zostałeś wylogowany poprawnie ', {
+            timeOut: 3000,
+            progressAnimation: 'decreasing'
+        });
         this.isLogged = false
         this.loadMenu()
     }

@@ -4,6 +4,7 @@ import {Photo} from '../core/images/models/photo.model';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ImagesService} from "../core/images/services/images.service";
 import {environment} from "../../environments/environment";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
     selector: 'app-photos',
@@ -11,7 +12,10 @@ import {environment} from "../../environments/environment";
     styleUrls: ['./photos.component.scss'],
 })
 export class PhotosComponent implements OnInit {
-    constructor(private route: ActivatedRoute, private router: Router, public photoService: ImagesService) {
+    constructor(private route: ActivatedRoute,
+                private router: Router,
+                public photoService: ImagesService,
+                private toastrService: ToastrService) {
     }
 
     isDisabled: boolean = true
@@ -42,12 +46,16 @@ export class PhotosComponent implements OnInit {
         this.photoService.getImages().subscribe((response) => {
             this.photos = response
             this.spliterData();
+        }, () => {
+            this.toastrService.error('', 'Wystąpił błąd podczas pobierania zdjęć', {
+                timeOut: 5000,
+                progressAnimation: 'decreasing'
+            });
         })
     }
 
     selectFiles(event: any): void {
         if (event.target.files) {
-            console.log(event.target.files)
             this.selectedFiles = event.target.files;
             this.isDisabled = false
         }
@@ -65,7 +73,10 @@ export class PhotosComponent implements OnInit {
             this.isDisabled = true
             this.loadData()
         } else {
-            console.log('No files selected.');
+            this.toastrService.error('', 'No files selected', {
+                timeOut: 1000,
+                progressAnimation: 'decreasing'
+            });
         }
     }
 
@@ -85,9 +96,6 @@ export class PhotosComponent implements OnInit {
                 event.currentIndex
             );
         }
-        console.log(this.result_1);
-        console.log(this.result_2);
-        console.log(this.result_3);
     }
 
     spliterData() {
@@ -116,8 +124,6 @@ export class PhotosComponent implements OnInit {
                     this.result_3.push(photo)
                     break;
                 }
-
-
             }
         });
     }
@@ -129,6 +135,11 @@ export class PhotosComponent implements OnInit {
         formData.append('3', JSON.stringify(this.result_3))
 
         this.photoService.sendConfiguration(formData)
+
+        this.toastrService.success('', 'Zapisano poprawnie konfiguracje', {
+            timeOut: 3000,
+            progressAnimation: 'decreasing'
+        });
     }
 
     readFile(file: string) {
@@ -141,14 +152,21 @@ export class PhotosComponent implements OnInit {
         } else {
             this.optionPhoto = photo
         }
-
-
-        console.log('show options ' + this.optionPhoto)
     }
 
     deletePhoto(photo: Photo) {
-        console.log('delete ' + photo)
         this.optionPhoto = null
+        if (photo) {
+            this.toastrService.success('', 'Usunięto zdjęcie poprawnie', {
+                timeOut: 3000,
+                progressAnimation: 'decreasing'
+            });
+        } else {
+            this.toastrService.error('', 'Wystąpił błąd podczas usuwania', {
+                timeOut: 3000,
+                progressAnimation: 'decreasing'
+            });
+        }
     }
 
 }
