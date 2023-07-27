@@ -10,7 +10,7 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^15.2.0",
+    "@angular/animations": "^15.2.9",
     "@angular/cdk": "^15.2.5",
     "@angular/common": "^15.2.0",
     "@angular/compiler": "^15.2.0",
@@ -27,6 +27,7 @@
     "isotope-layout": "^3.0.6",
     "jwt-decode": "^3.1.2",
     "ngx-masonry": "^14.0.1",
+    "ngx-toastr": "^16.2.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.12.0"
