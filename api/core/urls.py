@@ -17,15 +17,9 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-
-from photos.views import PhotoPositionViews, PhotoView
 
 urlpatterns = [
-                  path("admin/", admin.site.urls),
-                  path("api/photo/", PhotoView.as_view(), name="photos-api"),
-                  path("api/photo-positions/", PhotoPositionViews.as_view(), name="configuration_photos"),
-                  path("api/login/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
-                  path("api/login/refresh", TokenRefreshView.as_view(), name="token_refresh"),
-                  path("photo/", include("photos.urls")),
+                  path("api/admin/", admin.site.urls),
+                  path("api/login/", include("authentication.urls")),
+                  path("api/photo/", include("photos.urls")),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

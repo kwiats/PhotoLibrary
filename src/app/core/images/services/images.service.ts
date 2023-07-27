@@ -20,11 +20,11 @@ export class ImagesService {
         return this.httpClient.post('api/photo/', data, 'application/json')
     }
 
-    sendConfiguration(data: any): Observable<any>{
-        return this.httpClient.post('api/photo-positions/', data, 'application/json')
+    sendConfiguration(data: any): Observable<any> {
+        return this.httpClient.post('api/photo/positions', data, 'application/json')
     }
 
-    getConfiguration(): Observable<any>{
-        return this.httpClient.get('api/photo-positions/')
+    getConfiguration(): Observable<any> {
+        return this.httpClient.get('api/photo/positions')
     }
 }

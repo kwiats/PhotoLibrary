@@ -9,12 +9,13 @@ import {HeaderComponent} from './header/header.component';
 import {FooterComponent} from './footer/footer.component';
 import {PhotosComponent} from './photos/photos.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {PageComponent} from './page/page.component';
 import {HomeComponent} from './home/home.component';
 import {RouterModule} from "@angular/router";
 import {HttpClientModule} from "@angular/common/http";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
+import {AuthenticationComponent} from './authentication/authentication.component';
+import {AboutComponent} from './page/about/about.component';
 
 
 @NgModule({
@@ -23,8 +24,9 @@ import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
         HeaderComponent,
         FooterComponent,
         PhotosComponent,
-        PageComponent,
         HomeComponent,
+        AuthenticationComponent,
+        AboutComponent,
     ],
     imports: [
         FontAwesomeModule,
@@ -35,6 +37,7 @@ import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
         DragDropModule,
         RouterModule,
         FormsModule,
+        ReactiveFormsModule,
     ],
     providers: [],
     bootstrap: [AppComponent],

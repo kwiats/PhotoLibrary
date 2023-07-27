@@ -148,6 +148,7 @@ export class PhotosComponent implements OnInit {
 
     deletePhoto(photo: Photo) {
         console.log('delete ' + photo)
+        this.optionPhoto = null
     }
 
 }
