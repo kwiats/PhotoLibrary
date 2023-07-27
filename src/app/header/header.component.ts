@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
+import {AuthGuard} from "../core/auth/services/auth-guard.service";
 
 @Component({
     selector: 'app-header',
@@ -8,28 +9,30 @@ import {ActivatedRoute, Router} from '@angular/router';
 })
 export class HeaderComponent {
 
-
+    public username: string = ''
+    public isLogged: boolean = false
     menu = [
         {
             title: 'home',
             routingLink: '/home',
-            authentication: false
 
         },
         {
-            title: 'introduce me',
-            routingLink: '/page/about-me',
-            authentication: false
+            title: 'about',
+            routingLink: '/page/about',
         },
 
-        {
-            title: 'edit',
-            routingLink: '/auth/edit/',
-            authentication: true
-        },
+
     ]
 
-    constructor(private router: Router, private activatedRoute: ActivatedRoute) {
+    constructor(private router: Router, private activatedRoute: ActivatedRoute, private authService: AuthGuard) {
+        if (this.authService.isLogged()) {
+            this.isLogged = true
+            this.loadMenu()
+        } else {
+            this.isLogged = false
+        }
+        this.username = 'admin';
     }
 
     isActivePage(menuUrl: string) {
@@ -38,6 +41,44 @@ export class HeaderComponent {
             return 'active'
         }
         return null
+    }
+
+    loadMenu() {
+        if (this.isLogged) {
+            this.menu = [
+                {
+                    title: 'home',
+                    routingLink: '/home',
+                },
+                {
+                    title: 'about',
+                    routingLink: '/page/about-me',
+                },
+                {
+                    title: 'edit',
+                    routingLink: '/auth/edit/',
+                }
+            ]
+        } else {
+            this.menu = [
+                {
+                    title: 'home',
+                    routingLink: '/home',
+
+                },
+                {
+                    title: 'about',
+                    routingLink: '/page/about-me',
+                },
+            ]
+        }
+    }
+
+    async loggout() {
+        await this.authService.logout()
+        await this.router.navigate(['/', 'home'])
+        this.isLogged = false
+        this.loadMenu()
     }
 }
 

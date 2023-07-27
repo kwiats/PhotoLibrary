@@ -1,3 +1,23 @@
+.profile {
+
+  display: flex;
+  justify-content: flex-end;
+
+
+  .logout {
+    span {
+      cursor: pointer;
+      background: #ffffff;
+      border: lightgray solid 1px;
+      margin: 30px 10px;
+      border-radius: 0 0 10px 10px;
+      padding: 10px 10px 0 10px;
+      text-align: center;
+
+    }
+  }
+}
+
 .header {
   ///columns
 
@@ -26,20 +46,20 @@
   }
 
   .menu {
-
-    margin: 30px 50px 20px 50px;
+    display: flex;
+    margin: 20px 15px;
 
     span {
-      margin: 30px 50px 20px 50px;
+      width: 150px;
       cursor: pointer;
-      text-align: left;
+      text-align: center;
       font-family: Baghdad;
       color: black;
       font-size: 2vh;
     }
 
     .active {
-      border-bottom: black 1px solid;
+      text-decoration: underline;
     }
 
   }
