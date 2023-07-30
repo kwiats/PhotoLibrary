@@ -20,7 +20,7 @@ import {AboutComponent} from './page/about/about.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import {ToastrModule} from 'ngx-toastr';
-import {HashLocationStrategy, LocationStrategy} from "@angular/common";
+import {HashLocationStrategy, LocationStrategy, PathLocationStrategy} from "@angular/common";
 
 @NgModule({
     declarations: [
@@ -48,7 +48,7 @@ import {HashLocationStrategy, LocationStrategy} from "@angular/common";
         FormsModule,
         ReactiveFormsModule,
     ],
-    providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
+    providers: [{provide: LocationStrategy, useClass: PathLocationStrategy}],
     bootstrap: [AppComponent],
 })
 export class AppModule {

@@ -5,6 +5,7 @@ services:
       context: ./backend
     volumes:
       - media:/code/media/
+      - staticfiles:/code/staticfiles/
     ports:
       - "8000:8000"
     env_file:
@@ -21,15 +22,6 @@ services:
       - backend
     env_file:
       - environments.env
-  db:
-    image: postgres:latest
-    restart: always
-    env_file:
-      - environments.env
-    volumes:
-      - postgres-db:/data/postgres
-    ports:
-      - "5432:5432"
 
 volumes:
   postgres-db:
