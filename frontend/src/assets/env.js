@@ -2,5 +2,5 @@
     window["env"] = window["env"] || {};
 
     // Environment variables
-    window["env"]["apiUrl"] = "http://api.nataliastrzelczyk.com";
+    window["env"]["apiUrl"] = "https://nataliastrzelczyk.com";
 })(this);

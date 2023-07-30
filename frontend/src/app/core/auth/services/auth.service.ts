@@ -15,14 +15,14 @@ export class AuthService {
 
     login(login: string,
           password: string): Observable<TokenPair> {
-        return this.http.post<any>(`login/`, {
+        return this.http.post<any>(`api/login/`, {
             username: login,
             password
         }, 'application/json');
     }
 
     refreshToken(refreshToken: string): Observable<TokenPair> {
-        return this.http.post<any>(`login/refresh/`, {
+        return this.http.post<any>(`api/login/refresh/`, {
             refreshToken
         }, 'application/json');
     }
