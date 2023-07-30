@@ -1,4 +1,5 @@
 export const environment = {
-    apiUrl: 'http://127.0.0.1:8000/',
+    // @ts-ignore
+    apiUrl: window['env']['apiUrl'] || 'http://api.nataliastrzelczyk.com',
     version: 'VERSION_NOT_SET',
 };
