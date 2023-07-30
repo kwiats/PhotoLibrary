@@ -1,6 +1,13 @@
 #!/bin/bash
 
-python3 manage.py collectstatic --noinput
-ln -s staticfiles backend/static
-python3 -m http.server 9000 &
+# Collect static files
+echo "Collect static files"
+python3 manage.py collectstatic --no-input
+
+# Start server
+echo "Starting server"
+# python3 manage.py runserver 0.0.0.0:8000
 gunicorn --config gunicorn-cfg.py core.wsgi
+
+exec "$@"
+
