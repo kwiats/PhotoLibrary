@@ -14,12 +14,21 @@ services:
     build:
       context: ./frontend/
     ports:
-      - "80:80"
+      - "81:80"
     depends_on:
       - backend
     env_file:
       - environments.env
-
+  db:
+    image: postgres:latest
+    restart: always
+    env_file:
+      - environments.env
+    volumes:
+      - postgres-db:/data/postgres
+    ports:
+      - "5432:5432"
 
 volumes:
+  postgres-db:
   media:

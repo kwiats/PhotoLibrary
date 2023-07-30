@@ -24,27 +24,6 @@ CSRF_TRUSTED_ORIGINS = os.environ.get(
 
 CORS_ORIGIN_ALLOW_ALL = True
 
-CORS_ALLOW_METHODS = [
-    "DELETE",
-    "GET",
-    "OPTIONS",
-    "PATCH",
-    "POST",
-    "PUT",
-]
-
-CORS_ALLOW_HEADERS = [
-    "accept",
-    "accept-encoding",
-    "authorization",
-    "content-type",
-    "dnt",
-    "origin",
-    "user-agent",
-    "x-csrftoken",
-    "x-requested-with",
-]
-
 # Application definition
 DEVELOPMENT_MODE = os.environ.get("DEVELOPMENT_MODE", "False") == "True"
 
@@ -146,7 +125,6 @@ USE_I18N = True
 
 USE_TZ = True
 
-CORS_ORIGIN_ALLOW_ALL = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
@@ -166,5 +144,45 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
-    )
+    ),
+    "PAGE_SIZE": 100,
 }
+
+CORS_ALLOW_ALL_ORIGINS = True
+
+CORS_ORIGIN_WHITELIST = ("127.0.0.1", "localhost", "0.0.0.0", "nataliastrzelczyk.com")
+CORS_ALLOWED_ORIGINS = [
+    "http://nataliastrzelczyk.com",
+    "http://www.nataliastrzelczyk.com",
+    "http://127.0.0.1:4200",
+    "http://0.0.0.0:4200",
+]
+
+NO_AUTH_URLS = [
+    {"method": "GET", "url": "photo"},
+    {"method": "GET", "url": "photo/positions"},
+]
+
+CORS_ALLOW_METHODS = [
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+]
+
+CORS_ALLOW_HEADERS = [
+    "accept",
+    "accept-encoding",
+    "authorization",
+    "content-type",
+    "dnt",
+    "origin",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
+    "sessionId",
+]
+
+CORS_ALLOW_CREDENTIALS = True
