@@ -16,15 +16,12 @@ services:
       context: ./frontend/
     ports:
       - "81:80"
-    volumes:
-      - staticfiles:/code/staticfiles/
     depends_on:
       - backend
     env_file:
       - environments.env
 
 volumes:
-  postgres-db:
   media:
   static:
 

@@ -19,7 +19,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    path("api/admin/", admin.site.urls),
+    path("admin/", admin.site.urls),
     path("api/login/", include("authentication.urls")),
     path("api/photo/", include("photos.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

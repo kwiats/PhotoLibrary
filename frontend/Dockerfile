@@ -5,7 +5,7 @@ RUN npm install --force
 COPY ./ /app/
 RUN npm run build
 
-FROM nginx:1.15
+FROM nginx:latest
 EXPOSE 80
 COPY --from=build-stage /app/dist/photo/ /usr/share/nginx/html
 #COPY --from=build-stage /app/nginx.custom.conf /etc/nginx/conf.d/default.conf
