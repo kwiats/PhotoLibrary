@@ -5,7 +5,7 @@ services:
       context: ./backend
     volumes:
       - media:/code/media/
-      - staticfiles:/code/staticfiles/
+      - static:/code/static/
     ports:
       - "8000:8000"
     env_file:
@@ -26,5 +26,5 @@ services:
 volumes:
   postgres-db:
   media:
-  staticfiles:
+  static:
 
