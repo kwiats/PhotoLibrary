@@ -157,6 +157,9 @@ export class PhotosComponent implements OnInit {
     deletePhoto(photo: Photo) {
         this.optionPhoto = null
         if (photo) {
+
+            console.log(photo)
+            this.photoService.deletePhoto(photo)
             this.toastrService.success('', 'Usunięto zdjęcie poprawnie', {
                 timeOut: 3000,
                 progressAnimation: 'decreasing'
