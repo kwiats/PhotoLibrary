@@ -30,3 +30,9 @@ class PhotoInterface:
             photo.column_id = column_id
             photo.order = order_id
             photo.save()
+
+    @staticmethod
+    def delete(*, photo_id: Union[uuid.UUID, str]):
+        with transaction.atomic():
+            photo = Photo.objects.get(uuid=photo_id)
+            photo.delete()

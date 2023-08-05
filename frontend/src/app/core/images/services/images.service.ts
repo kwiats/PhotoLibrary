@@ -27,4 +27,11 @@ export class ImagesService {
     getConfiguration(): Observable<any> {
         return this.httpClient.get('api/photo/positions')
     }
+
+    deletePhoto(photo: Photo): Observable<any> {
+        const query = new URLSearchParams({
+            'photoid': `${photo.uuid}`
+        })
+        return this.httpClient.delete(`api/photo/?${query}`)
+    }
 }
