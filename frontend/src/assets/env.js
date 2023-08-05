@@ -4,4 +4,5 @@
     // Environment variables
     window["env"]["apiUrl"] = "http://api.nataliastrzelczyk.com/";
 
+
 })(this);
