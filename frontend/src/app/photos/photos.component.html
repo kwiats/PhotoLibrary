@@ -22,7 +22,7 @@
 </div>
 
 
-<div class="container">
+<div class="container-photo">
     <div cdkDropList class="column" #result_1List="cdkDropList" [cdkDropListData]="result_1"
          [cdkDropListConnectedTo]="[result_2List, result_3List]" (cdkDropListDropped)="drop($event)">
         <div class="photo" *ngFor="let photo of result_1" cdkDrag [cdkDragData]="photo">
