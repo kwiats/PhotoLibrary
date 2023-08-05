@@ -2,6 +2,6 @@
     window["env"] = window["env"] || {};
 
     // Environment variables
-    window["env"]["apiUrl"] = "http://srv21.mikr.us:20208/";
+    window["env"]["apiUrl"] = "http://51.77.59.2:8080/";
 
 })(this);
