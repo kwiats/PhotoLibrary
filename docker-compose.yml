@@ -1,4 +1,9 @@
 version: '3'
+
+networks:
+  proxiable:
+    name: proxiable
+
 services:
   backend:
     build:
@@ -15,11 +20,25 @@ services:
     build:
       context: ./frontend/
     ports:
-      - "81:80"
+      - "88:80"
     depends_on:
       - backend
     env_file:
       - environments.env
+  app:
+    image: 'jc21/nginx-proxy-manager:latest'
+    container_name: nginxproxymanager
+    restart: unless-stopped
+    volumes:
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
+    ports:
+      - '80:80'
+      - '443:443'
+      - '81:81'
+    networks:
+      - proxiable
+
 
 volumes:
   media:
