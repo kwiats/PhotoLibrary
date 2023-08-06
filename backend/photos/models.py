@@ -13,8 +13,12 @@ def upload_to(instance, filename):
 
 
 class Photo(BaseModel):
-    photo = models.ImageField(upload_to=upload_to, max_length=100, verbose_name='photos',
-                              validators=[FileExtensionValidator(['jpg', 'jpeg'])])
+    photo = models.ImageField(
+        upload_to=upload_to,
+        max_length=100,
+        verbose_name="photos",
+        validators=[FileExtensionValidator(["jpg", "jpeg"])],
+    )
     column_id = models.IntegerField(default=1)
     order = models.IntegerField(default=0)
 
