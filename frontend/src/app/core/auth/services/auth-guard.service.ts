@@ -29,6 +29,7 @@ export class AuthGuard {
                             .then(refresh => {
                                 const jwtContent: any = jwt_decode(res)
                                 const isExpired = jwtContent.exp < (new Date().getTime() / 1000);
+
                                 if (!isExpired) {
                                     if (refresh) {
                                         const secondsLeft = jwtContent.exp - (new Date().getTime() / 1000) - 30;

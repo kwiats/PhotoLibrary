@@ -121,14 +121,14 @@ export class HttpService {
             const tokenObject = JSON.parse(token);
             const tokenData = jwt_decode(tokenObject)
             // @ts-ignore
-            if (tokenData.exp >= Date.now() / 1000) {
-                console.log(tokenObject)
+            if (tokenData.exp >= (new Date().getTime() / 1000)) {
+
                 headers = headers.set(
                     'Authorization',
                     `Bearer ${tokenObject.idToken || tokenObject}`
                 );
             } else {
-                console.log(tokenData)
+
             }
         }
         headers = headers.set('Accept-Language', 'pl');
