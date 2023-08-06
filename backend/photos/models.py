@@ -12,8 +12,6 @@ def upload_to(instance, filename):
     return "assets/images/{filename}".format(filename=filename)
 
 
-
-
 class Photo(BaseModel):
     photo = models.ImageField(
         upload_to=upload_to,
