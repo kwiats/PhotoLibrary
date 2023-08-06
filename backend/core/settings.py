@@ -151,8 +151,8 @@ REST_FRAMEWORK = {
 }
 
 CORS_ALLOWED_ORIGINS = [
-    "http://nataliastrzelczyk.com",
-    "http://www.nataliastrzelczyk.com",
+    "https://nataliastrzelczyk.com",
+    "https://www.nataliastrzelczyk.com",
     "http://localhost:4200",
 ]
 
