@@ -166,7 +166,7 @@ export class PhotosComponent implements OnInit {
     }
 
     readFile(file: string) {
-        return environment.apiUrl + file
+        return environment.apiUrl.slice(0, -1) + file
     }
 
     showOptions(photo: Photo) {
