@@ -1,6 +1,7 @@
 import uuid
 from typing import Union
 
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
 
 from photos.models import Photo
@@ -34,5 +35,8 @@ class PhotoInterface:
     @staticmethod
     def delete(*, photo_id: Union[uuid.UUID, str]):
         with transaction.atomic():
-            photo = Photo.objects.get(uuid=photo_id)
-            photo.delete()
+            try:
+                photo = Photo.objects.get(uuid=photo_id)
+                photo.delete()
+            except ObjectDoesNotExist:
+                pass

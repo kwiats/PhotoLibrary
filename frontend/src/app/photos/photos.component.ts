@@ -43,6 +43,9 @@ export class PhotosComponent implements OnInit {
 
 
     loadData() {
+        this.result_1 = [];
+        this.result_2 = [];
+        this.result_3 = [];
         this.photoService.getImages().subscribe((response) => {
             this.photos = response
             this.spliterData();
@@ -68,10 +71,22 @@ export class PhotosComponent implements OnInit {
             for (let i = 0; i < this.selectedFiles.length; i++) {
                 formData.append('file', this.selectedFiles[i])
             }
-            this.photoService.uploadFile(formData);
-            this.selectedFiles = []
-            this.isDisabled = true
-            this.loadData()
+            this.photoService.uploadFile(formData).subscribe(() => {
+                this.toastrService.success('', `Dodano ${this.selectedFiles.length} zdjęć `, {
+                    timeOut: 2000,
+                    progressAnimation: 'decreasing'
+                });
+                this.selectedFiles = []
+                this.isDisabled = true
+                this.loadData()
+            }, () => {
+                this.toastrService.error('', 'Błąd podczas dodwania zdjęć', {
+                    timeOut: 1000,
+                    progressAnimation: 'decreasing'
+                });
+            });
+
+
         } else {
             this.toastrService.error('', 'No files selected', {
                 timeOut: 1000,
@@ -134,12 +149,20 @@ export class PhotosComponent implements OnInit {
         formData.append('2', JSON.stringify(this.result_2))
         formData.append('3', JSON.stringify(this.result_3))
 
-        this.photoService.sendConfiguration(formData)
+        this.photoService.sendConfiguration(formData).subscribe(() => {
+            this.toastrService.success('', 'Zapisano poprawnie konfiguracje', {
+                timeOut: 3000,
+                progressAnimation: 'decreasing'
+            });
+            this.loadData()
+        }, () => {
+            this.toastrService.warning('', 'Błąd podczas zapisywania konfiguracji', {
+                timeOut: 3000,
+                progressAnimation: 'decreasing'
+            });
+        })
 
-        this.toastrService.success('', 'Zapisano poprawnie konfiguracje', {
-            timeOut: 3000,
-            progressAnimation: 'decreasing'
-        });
+
     }
 
     readFile(file: string) {
@@ -157,18 +180,20 @@ export class PhotosComponent implements OnInit {
     deletePhoto(photo: Photo) {
         this.optionPhoto = null
         if (photo) {
+            this.photoService.deletePhoto(photo.uuid).subscribe((res) => {
+                this.toastrService.success('', 'Usunięto zdjęcie poprawnie', {
+                    timeOut: 3000,
+                    progressAnimation: 'decreasing'
+                });
+                this.loadData()
+            }, () => {
+                this.toastrService.error('', 'Wystąpił błąd podczas usuwania', {
+                    timeOut: 3000,
+                    progressAnimation: 'decreasing'
+                });
+                this.loadData()
+            })
 
-            console.log(photo)
-            this.photoService.deletePhoto(photo)
-            this.toastrService.success('', 'Usunięto zdjęcie poprawnie', {
-                timeOut: 3000,
-                progressAnimation: 'decreasing'
-            });
-        } else {
-            this.toastrService.error('', 'Wystąpił błąd podczas usuwania', {
-                timeOut: 3000,
-                progressAnimation: 'decreasing'
-            });
         }
     }
 

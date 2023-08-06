@@ -1,11 +1,11 @@
 from django.http import JsonResponse
-from rest_framework import viewsets
-from rest_framework.authentication import BasicAuthentication, SessionAuthentication
-from rest_framework.permissions import IsAuthenticated
+from rest_framework import viewsets, status
+from rest_framework.decorators import api_view
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from photos.models import PhotoPositions
+from photos.models import PhotoPositions, Photo
 from photos.serializers import PhotoSerializer, PhotoPositionsSerializer
 from photos.services.photo_service import PhotoService
 
@@ -16,11 +16,7 @@ class PositionsViewSet(viewsets.ModelViewSet):
 
 
 class PhotoView(APIView):
-    authentication_classes = [
-        SessionAuthentication,
-        BasicAuthentication,
-    ]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get(self, request):
         photos = PhotoService.get_photos()
@@ -29,24 +25,39 @@ class PhotoView(APIView):
 
     def post(self, request, *args, **kwargs):
         files = request.FILES.getlist("file")
-        message = f"Uploaded {len(files)} files to server"
-        PhotoService.create_photo(files)
-        return Response({"message": message})
+        if files is None:
+            return Response(
+                {"message": "No photos is uploaded "}, status=status.HTTP_404_NOT_FOUND
+            )
 
-    def delete(self, request):
-        message = f"Image is deleted"
-        photo_id = request.data.get("photo")
-        PhotoService.delete_photo(photo_id)
-        return Response({"message": message})
+        message = f"Uploaded {len(files)} files to server"
+        created = PhotoService.create_photo(files)
+        if created:
+            return Response({"message": message}, status=status.HTTP_200_OK)
+        return Response(
+            {"message": "We cannot add this photos"},
+            status=status.HTTP_405_METHOD_NOT_ALLOWED,
+        )
+
+
+@api_view(["DELETE"])
+def delete_photo(request, pk: str):
+    if request.method == "DELETE":
+        photo = Photo.objects.get(uuid=pk)
+        print(photo)
+        response = PhotoService.delete_photo(photo_id=pk)
+        return response
 
 
 class PhotoPositionViews(APIView):
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
     def get(self, request):
         latest_configuration = PhotoPositions.objects.order_by("-created_date")
         latest_configuration = latest_configuration.first()
 
         if latest_configuration is None:
-            return JsonResponse({"message": "No configurations found."}, status=404)
+            return Response({"message": "No configurations found."}, status=404)
 
         columns = latest_configuration.columns
 
@@ -63,4 +74,6 @@ class PhotoPositionViews(APIView):
 
         PhotoPositions.objects.create(columns=columns)
 
-        return JsonResponse({"message": "Configuration saved successfully."})
+        return Response(
+            {"message": "Configuration saved successfully."}, status=status.HTTP_200_OK
+        )
