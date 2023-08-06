@@ -23,6 +23,8 @@ export class PhotosComponent implements OnInit {
 
     optionPhoto: any;
 
+    newPhotos: Photo[] = [];
+    unPositioned: Photo[] = [];
     result_1: Photo[] = [];
     result_2: Photo[] = [];
     result_3: Photo[] = [];
@@ -43,6 +45,8 @@ export class PhotosComponent implements OnInit {
 
 
     loadData() {
+        this.newPhotos = [];
+        this.unPositioned = [];
         this.result_1 = [];
         this.result_2 = [];
         this.result_3 = [];
@@ -126,20 +130,27 @@ export class PhotosComponent implements OnInit {
             return 0;
         });
         this.photos.forEach((photo: any) => {
-            switch (photo.column_id) {
-                case 1: {
-                    this.result_1.push(photo)
-                    break;
+            if (photo.status == 'POSITIONED') {
+                switch (photo.column_id) {
+                    case 1: {
+                        this.result_1.push(photo)
+                        break;
+                    }
+                    case 2: {
+                        this.result_2.push(photo)
+                        break;
+                    }
+                    case 3: {
+                        this.result_3.push(photo)
+                        break;
+                    }
                 }
-                case 2: {
-                    this.result_2.push(photo)
-                    break;
-                }
-                case 3: {
-                    this.result_3.push(photo)
-                    break;
-                }
+            } else if (photo.status == 'NEW') {
+                this.newPhotos.push(photo)
+            } else{
+                this.unPositioned.push(photo)
             }
+
         });
     }
 

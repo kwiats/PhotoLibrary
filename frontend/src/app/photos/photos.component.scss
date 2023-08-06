@@ -8,15 +8,6 @@
   justify-content: center;
 }
 
-.container-photo {
-  display: grid;
-  grid-template-columns: repeat(3, 150px);
-  grid-auto-flow: dense;
-  max-width: 100%;
-  align-content: center;
-  justify-items: stretch;
-  justify-content: center;
-}
 
 .details {
   position: absolute;
@@ -117,3 +108,27 @@
 
 }
 
+.container-status {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  flex-wrap: nowrap;
+
+  .one-column {
+    display: grid;
+    grid-template-columns: repeat(1, 150px);
+    grid-auto-flow: dense;
+    max-width: 100%;
+    border: #cccccc 1px solid;
+    padding: 20px;
+
+  }
+
+  .three-columns {
+    display: grid;
+    grid-template-columns: repeat(3, 150px);
+    grid-auto-flow: dense;
+    max-width: 100%;
+  }
+
+}
