@@ -5,7 +5,7 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from photos.models import PhotoPositions, Photo
+from photos.models import PhotoPositions
 from photos.serializers import PhotoSerializer, PhotoPositionsSerializer
 from photos.services.photo_service import PhotoService
 
@@ -29,11 +29,12 @@ class PhotoView(APIView):
             return Response(
                 {"message": "No photos is uploaded "}, status=status.HTTP_404_NOT_FOUND
             )
-
-        message = f"Uploaded {len(files)} files to server"
         created = PhotoService.create_photo(files)
         if created:
-            return Response({"message": message}, status=status.HTTP_200_OK)
+            return Response(
+                {"message": f"Uploaded {len(files)} files to server"},
+                status=status.HTTP_200_OK,
+            )
         return Response(
             {"message": "We cannot add this photos"},
             status=status.HTTP_405_METHOD_NOT_ALLOWED,
@@ -42,11 +43,9 @@ class PhotoView(APIView):
 
 @api_view(["DELETE"])
 def delete_photo(request, pk: str):
-    if request.method == "DELETE":
-        photo = Photo.objects.get(uuid=pk)
-        print(photo)
-        response = PhotoService.delete_photo(photo_id=pk)
-        return response
+    response = PhotoService.delete_photo(photo_id=pk)
+    return response
+
 
 
 class PhotoPositionViews(APIView):

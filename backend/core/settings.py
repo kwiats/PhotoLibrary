@@ -2,15 +2,13 @@ import os
 from datetime import timedelta
 from pathlib import Path
 
-from django.core.management.utils import get_random_secret_key
-
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("SECRET_KEY", get_random_secret_key())
+SECRET_KEY = "secret-key-key"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = os.environ.get("DEBUG", False) == "True"
@@ -26,10 +24,6 @@ CSRF_TRUSTED_ORIGINS = [
     "https://www.api.nataliastrzelczyk.com",
 ]
 
-CORS_ORIGIN_ALLOW_ALL = True
-
-# Application definition
-DEVELOPMENT_MODE = os.environ.get("DEVELOPMENT_MODE", "False") == "True"
 
 DJANGO_APPS = [
     "django.contrib.admin",
@@ -61,18 +55,10 @@ MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
 ]
 
+
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=20),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=30),
-    "SIGNING_KEY": SECRET_KEY,
-    "ROTATE_REFRESH_TOKENS": True,
-    "BLACKLIST_AFTER_ROTATION": True,
-    "UPDATE_LAST_LOGIN": True,
-    "AUTH_HEADER_TYPES": ("Bearer",),
-    "AUTH_HEADER_NAME": "HTTP_AUTHORIZATION",
-    "SLIDING_TOKEN_REFRESH_EXP_CLAIM": "refresh_exp",
-    "SLIDING_TOKEN_LIFETIME": timedelta(minutes=5),
-    "SLIDING_TOKEN_REFRESH_LIFETIME": timedelta(days=1),
 }
 
 ROOT_URLCONF = "core.urls"
@@ -154,32 +140,20 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": (
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 9999,
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",
+    ],
+    "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework_simplejwt.authentication.JWTAuthentication",
-    ),
-    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
-    "PAGE_SIZE": 100,
+    ],
 }
 
-# CORS_ALLOW_ALL_ORIGINS = False
-
-# CORS_ORIGIN_WHITELIST = (
-#     "http://127.0.0.1:4200",
-#     "http://127.0.0.1:8000",
-#     "http://localhost",
-#     "http://0.0.0.0",
-#     "https://nataliastrzelczyk.com",
-# )
 CORS_ALLOWED_ORIGINS = [
     "http://nataliastrzelczyk.com",
     "http://www.nataliastrzelczyk.com",
-    "http://127.0.0.1:4200",
-    "http://0.0.0.0:4200",
-]
-
-NO_AUTH_URLS = [
-    {"method": "GET", "url": "photo"},
-    {"method": "GET", "url": "photo/positions"},
+    "http://localhost:4200",
 ]
 
 CORS_ALLOW_METHODS = [
