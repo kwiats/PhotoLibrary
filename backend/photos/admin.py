@@ -5,7 +5,7 @@ from photos.models import Photo, PhotoPositions
 
 class PhotoAdmin(admin.ModelAdmin):
     date_hierarchy = "created_date"
-    list_display = ["photo", "created_date", "column_id", "order"]
+    list_display = ["uuid", "status", "photo", "created_date", "column_id", "order"]
 
 
 class PhotoPositionsAdmin(admin.ModelAdmin):

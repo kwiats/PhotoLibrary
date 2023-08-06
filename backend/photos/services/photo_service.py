@@ -5,7 +5,7 @@ from rest_framework import status
 from rest_framework.response import Response
 
 from photos.interfaces.photo_interface import PhotoInterface
-from photos.models import PhotoPositions, Photo
+from photos.models import PhotoPositions, Photo, POSITIONED, UNPOSITIONED, NEW
 from photos.serializers import PhotoSerializer
 from photos.utils.photo_utils import (
     _convert_object_to_worst_quality,
@@ -66,14 +66,34 @@ class PhotoService:
 
     @staticmethod
     def update_photo(*, columns: dict) -> None:
+        all_photos = Photo.objects.all()
+        columns_photos = set()
+        i = 0
         for column_id, data in columns.items():
             loaded_data = json.loads(data)
             for order, photo in enumerate(loaded_data):
                 try:
                     photo_id = photo["uuid"]
+                    columns_photos.add(photo_id)
                     PhotoInterface.update(
-                        photo_id=photo_id, column_id=column_id, order_id=order
+                        photo_id=photo_id,
+                        column_id=column_id,
+                        order_id=order,
+                        status=POSITIONED,
                     )
+                except ObjectDoesNotExist:
+                    pass
+        for photo in all_photos:
+            if str(photo.uuid) not in columns_photos:
+                try:
+                    if photo.status != NEW:
+                        PhotoInterface.update(
+                            photo_id=photo.uuid,
+                            column_id=0,
+                            order_id=i,
+                            status=UNPOSITIONED,
+                        )
+                        i += 1
                 except ObjectDoesNotExist:
                     pass
 

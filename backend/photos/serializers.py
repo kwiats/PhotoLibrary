@@ -8,12 +8,12 @@ class PhotoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Photo
-        ordering = ['-created_date']
-        fields = ["uuid", "photo", "created_date", 'column_id', 'order']
+        ordering = ["-created_date"]
+        fields = ["uuid", "photo", "created_date", "column_id", "order", "status"]
 
 
 class PhotoPositionsSerializer(serializers.ModelSerializer):
     class Meta:
         model = PhotoPositions
-        ordering = ['-created_date']
-        fields = ["uuid", 'columns', "created_date"]
+        ordering = ["-created_date"]
+        fields = ["uuid", "columns", "created_date"]

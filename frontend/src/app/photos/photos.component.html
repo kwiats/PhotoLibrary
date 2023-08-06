@@ -21,64 +21,110 @@
     </div>
 </div>
 
-
-<div class="container-photo">
-    <div cdkDropList class="column" #result_1List="cdkDropList" [cdkDropListData]="result_1"
-         [cdkDropListConnectedTo]="[result_2List, result_3List]" (cdkDropListDropped)="drop($event)">
-        <div class="photo" *ngFor="let photo of result_1" cdkDrag [cdkDragData]="photo">
-            <div class="details">
-                <div class="button" (click)="showOptions(photo)">
-                    <img class="button-img" src="assets/icons/three-dots.svg">
-                </div>
-                <div class="options" *ngIf="this.optionPhoto === photo">
-                    <div class="option" *ngFor="let option of options"
-                         (click)="option.function(this.optionPhoto)">
-                        <i class="{{option.icon}}"></i>
-                        <span>{{option.name}}</span>
+<div class="container-status">
+    <div class="one-column">
+        <div cdkDropList class="column" #newPhotosList="cdkDropList" [cdkDropListData]="newPhotos"
+             [cdkDropListConnectedTo]="[unPositionedList, result_1List,result_2List, result_3List]" (cdkDropListDropped)="drop($event)">
+            <div class="photo" *ngFor="let photo of newPhotos" cdkDrag [cdkDragData]="photo">
+                <div class="details">
+                    <div class="button" (click)="showOptions(photo)">
+                        <img class="button-img" src="assets/icons/three-dots.svg">
+                    </div>
+                    <div class="options" *ngIf="this.optionPhoto === photo">
+                        <div class="option" *ngFor="let option of options"
+                             (click)="option.function(this.optionPhoto)">
+                            <i class="{{option.icon}}"></i>
+                            <span>{{option.name}}</span>
+                        </div>
                     </div>
                 </div>
+
+                <img src="{{readFile(photo.photo)}}">
+
             </div>
-
-            <img src="{{readFile(photo.photo)}}">
-
         </div>
     </div>
-    <div class="column" cdkDropList #result_2List="cdkDropList" [cdkDropListData]="result_2"
-         [cdkDropListConnectedTo]="[result_3List, result_1List]" (cdkDropListDropped)="drop($event)">
-        <div class="photo" *ngFor="let photo of result_2" cdkDrag [cdkDragData]="photo">
-            <div class="details">
-                <div class="button" (click)="showOptions(photo)">
-                    <img class="button-img" src="assets/icons/three-dots.svg">
-                </div>
-                <div class="options" *ngIf="this.optionPhoto === photo">
-                    <div class="option" *ngFor="let option of options"
-                         (click)="option.function(this.optionPhoto)">
-                        <i class="{{option.icon}}"></i>
-                        <span>{{option.name}}</span>
+    <div class="three-columns">
+        <div cdkDropList class="column" #result_1List="cdkDropList" [cdkDropListData]="result_1"
+             [cdkDropListConnectedTo]="[unPositionedList, newPhotosList,result_2List, result_3List]" (cdkDropListDropped)="drop($event)">
+            <div class="photo" *ngFor="let photo of result_1" cdkDrag [cdkDragData]="photo">
+                <div class="details">
+                    <div class="button" (click)="showOptions(photo)">
+                        <img class="button-img" src="assets/icons/three-dots.svg">
+                    </div>
+                    <div class="options" *ngIf="this.optionPhoto === photo">
+                        <div class="option" *ngFor="let option of options"
+                             (click)="option.function(this.optionPhoto)">
+                            <i class="{{option.icon}}"></i>
+                            <span>{{option.name}}</span>
+                        </div>
                     </div>
                 </div>
+
+                <img src="{{readFile(photo.photo)}}">
+
             </div>
-            <img src="{{readFile(photo.photo)}}">
+        </div>
+        <div class="column" cdkDropList #result_2List="cdkDropList" [cdkDropListData]="result_2"
+             [cdkDropListConnectedTo]="[unPositionedList, newPhotosList,result_3List, result_1List]" (cdkDropListDropped)="drop($event)">
+            <div class="photo" *ngFor="let photo of result_2" cdkDrag [cdkDragData]="photo">
+                <div class="details">
+                    <div class="button" (click)="showOptions(photo)">
+                        <img class="button-img" src="assets/icons/three-dots.svg">
+                    </div>
+                    <div class="options" *ngIf="this.optionPhoto === photo">
+                        <div class="option" *ngFor="let option of options"
+                             (click)="option.function(this.optionPhoto)">
+                            <i class="{{option.icon}}"></i>
+                            <span>{{option.name}}</span>
+                        </div>
+                    </div>
+                </div>
+                <img src="{{readFile(photo.photo)}}">
+            </div>
+        </div>
+        <div class="column" cdkDropList #result_3List="cdkDropList" [cdkDropListData]="result_3"
+             [cdkDropListConnectedTo]="[unPositionedList, newPhotosList, result_1List, result_2List]" (cdkDropListDropped)="drop($event)">
+            <div class="photo" *ngFor="let photo of result_3" cdkDrag [cdkDragData]="photo">
+                <div class="details">
+                    <div class="button" (click)="showOptions(photo)">
+                        <img class="button-img" src="assets/icons/three-dots.svg">
+                    </div>
+                    <div class="options" *ngIf="this.optionPhoto === photo">
+                        <div class="option" *ngFor="let option of options"
+                             (click)="option.function(this.optionPhoto)">
+                            <i class="{{option.icon}}"></i>
+                            <span>{{option.name}}</span>
+                        </div>
+                    </div>
+                </div>
+                <img src="{{readFile(photo.photo)}}">
+            </div>
         </div>
     </div>
-    <div class="column" cdkDropList #result_3List="cdkDropList" [cdkDropListData]="result_3"
-         [cdkDropListConnectedTo]="[result_1List, result_2List]" (cdkDropListDropped)="drop($event)">
-        <div class="photo" *ngFor="let photo of result_3" cdkDrag [cdkDragData]="photo">
-            <div class="details">
-                <div class="button" (click)="showOptions(photo)">
-                    <img class="button-img" src="assets/icons/three-dots.svg">
-                </div>
-                <div class="options" *ngIf="this.optionPhoto === photo">
-                    <div class="option" *ngFor="let option of options"
-                         (click)="option.function(this.optionPhoto)">
-                        <i class="{{option.icon}}"></i>
-                        <span>{{option.name}}</span>
+    <div class="one-column">
+        <div cdkDropList class="column" #unPositionedList="cdkDropList" [cdkDropListData]="unPositioned"
+             [cdkDropListConnectedTo]="[newPhotosList, result_1List, result_2List, result_3List]" (cdkDropListDropped)="drop($event)">
+            <div class="photo" *ngFor="let photo of unPositioned" cdkDrag [cdkDragData]="photo">
+                <div class="details">
+                    <div class="button" (click)="showOptions(photo)">
+                        <img class="button-img" src="assets/icons/three-dots.svg">
+                    </div>
+                    <div class="options" *ngIf="this.optionPhoto === photo">
+                        <div class="option" *ngFor="let option of options"
+                             (click)="option.function(this.optionPhoto)">
+                            <i class="{{option.icon}}"></i>
+                            <span>{{option.name}}</span>
+                        </div>
                     </div>
                 </div>
+
+                <img src="{{readFile(photo.photo)}}">
+
             </div>
-            <img src="{{readFile(photo.photo)}}">
         </div>
     </div>
 </div>
+
 <app-footer></app-footer>
 
