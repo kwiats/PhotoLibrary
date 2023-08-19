@@ -48,6 +48,10 @@ class PhotoService:
         return PhotoRepository.get()
 
     @staticmethod
+    def get_all_photos():
+        return PhotoRepository.get_all()
+
+    @staticmethod
     def get_rows():
         return PhotoRepository.get_rows()
 
@@ -74,9 +78,9 @@ class PhotoService:
 
     @staticmethod
     def update_photo(*, columns: dict) -> None:
-        all_photos = Photo.objects.all()
+        PhotoService.unposition_photos()
         columns_photos = set()
-        i = 0
+
         for column_id, data in columns.items():
             loaded_data = json.loads(data)
             for order, photo in enumerate(loaded_data):
@@ -91,19 +95,23 @@ class PhotoService:
                     )
                 except ObjectDoesNotExist:
                     pass
+
+    @staticmethod
+    def unposition_photos():
+        unpositioned_order = 0
+        all_photos = Photo.objects.all()
         for photo in all_photos:
-            if str(photo.uuid) not in columns_photos:
-                try:
-                    if photo.status != NEW:
-                        PhotoRepository.update(
-                            photo_id=photo.uuid,
-                            column_id=0,
-                            order_id=i,
-                            status=UNPOSITIONED,
-                        )
-                        i += 1
-                except ObjectDoesNotExist:
-                    pass
+            try:
+                if photo.status != NEW:
+                    PhotoRepository.update(
+                        photo_id=photo.uuid,
+                        column_id=0,
+                        order_id=unpositioned_order,
+                        status=UNPOSITIONED,
+                    )
+                    unpositioned_order += 1
+            except ObjectDoesNotExist:
+                pass
 
     @staticmethod
     def delete_photo(*, photo_id: str) -> Response:
