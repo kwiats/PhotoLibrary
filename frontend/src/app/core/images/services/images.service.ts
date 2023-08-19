@@ -1,8 +1,10 @@
 import {Injectable} from '@angular/core';
 import {HttpService} from "../../common/services/http.service";
 import {Observable} from "rxjs";
-import {Photo} from "../models/photo.model";
+
 import {HttpClient} from "@angular/common/http";
+import {ApiResponse} from "../../common/models/reponse.model";
+import {Photo} from "../models/photo.model";
 
 @Injectable({
     providedIn: 'root'
@@ -12,8 +14,15 @@ export class ImagesService {
     constructor(private http: HttpClient, private httpClient: HttpService) {
     }
 
-    getImages(): Observable<Photo> {
-        return this.httpClient.get(`api/photo/`)
+    getImages(page: number = 1, pageSize: number = 10,isOnlyPositioned: boolean = false): Observable<ApiResponse<Photo>> {
+        
+        return this.httpClient.get(`api/photo/?page=${page}&pageSize=${pageSize}&isOnlyPositioned=${isOnlyPositioned}`)
+    }
+    getPhotoRows(): Observable<any> {
+        return this.httpClient.get(`api/photo/rows`)
+    }
+    getPhotoColumns(): Observable<any> {
+        return this.httpClient.get(`api/photo/columns`)
     }
 
     uploadFile(data: any): Observable<any> {

@@ -1,19 +1,19 @@
 <app-header></app-header>
 
-<div class="container">
+<div class="container" (scroll)="onScroll()">
   <div class="column">
     <div class="photo" *ngFor="let photo of result_1">
-      <img src="{{readFile(photo.photo)}}">
+      <img alt="{{photo.uuid}}" src="{{readFile(photo.photo)}}">
     </div>
   </div>
   <div class="column">
     <div class="photo" *ngFor="let photo of result_2">
-      <img src="{{readFile(photo.photo)}}">
+      <img alt="{{photo.uuid}}" src="{{readFile(photo.photo)}}">
     </div>
   </div>
   <div class="column">
     <div class="photo" *ngFor="let photo of result_3">
-      <img src="{{readFile(photo.photo)}}">
+      <img alt="{{photo.uuid}}" src="{{readFile(photo.photo)}}">
     </div>
   </div>
 </div>

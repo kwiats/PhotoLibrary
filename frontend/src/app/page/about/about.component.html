@@ -1,4 +1,7 @@
 <app-header></app-header>
+<div class="about">
+    <b>nataliamariastrzelczyk@gmail.com</b>
+</div>
 <form>
     <label class="main-label">contact with me</label>
 
@@ -11,7 +14,7 @@
     <label for="message">message:</label><br>
     <textarea id="message" name="message" rows="5" cols="50" required></textarea><br>
 
-    <input type="submit" value="send" class="submit-button">
+    <input type="submit" (click)="sendMessage()" value="send" class="submit-button">
 </form>
 <app-footer></app-footer>
 <router-outlet></router-outlet>

@@ -70,7 +70,7 @@
             <div class="photo" *ngFor="let photo of result_2" cdkDrag [cdkDragData]="photo">
                 <div class="details">
                     <div class="button" (click)="showOptions(photo)">
-                        <img class="button-img" src="assets/icons/three-dots.svg">
+                        <img class="button-img" alt="options" src="assets/icons/three-dots.svg">
                     </div>
                     <div class="options" *ngIf="this.optionPhoto === photo">
                         <div class="option" *ngFor="let option of options"
@@ -80,7 +80,7 @@
                         </div>
                     </div>
                 </div>
-                <img src="{{readFile(photo.photo)}}">
+                <img src="{{readFile(photo.photo)}}" alt="{{photo.uuid}}">
             </div>
         </div>
         <div class="column" cdkDropList #result_3List="cdkDropList" [cdkDropListData]="result_3"
@@ -88,7 +88,7 @@
             <div class="photo" *ngFor="let photo of result_3" cdkDrag [cdkDragData]="photo">
                 <div class="details">
                     <div class="button" (click)="showOptions(photo)">
-                        <img class="button-img" src="assets/icons/three-dots.svg">
+                        <img class="button-img" alt="options" src="assets/icons/three-dots.svg">
                     </div>
                     <div class="options" *ngIf="this.optionPhoto === photo">
                         <div class="option" *ngFor="let option of options"
@@ -98,7 +98,7 @@
                         </div>
                     </div>
                 </div>
-                <img src="{{readFile(photo.photo)}}">
+                <img src="{{readFile(photo.photo)}}" alt="{{photo.uuid}}">
             </div>
         </div>
     </div>
@@ -108,7 +108,7 @@
             <div class="photo" *ngFor="let photo of unPositioned" cdkDrag [cdkDragData]="photo">
                 <div class="details">
                     <div class="button" (click)="showOptions(photo)">
-                        <img class="button-img" src="assets/icons/three-dots.svg">
+                        <img class="button-img" alt="options" src="assets/icons/three-dots.svg">
                     </div>
                     <div class="options" *ngIf="this.optionPhoto === photo">
                         <div class="option" *ngFor="let option of options"
@@ -118,9 +118,7 @@
                         </div>
                     </div>
                 </div>
-
-                <img src="{{readFile(photo.photo)}}">
-
+                <img src="{{readFile(photo.photo)}}" alt="{{photo.uuid}}">
             </div>
         </div>
     </div>

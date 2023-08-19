@@ -16,6 +16,7 @@ export class PhotosComponent implements OnInit {
                 private router: Router,
                 public photoService: ImagesService,
                 private toastrService: ToastrService) {
+
     }
 
     isDisabled: boolean = true
@@ -50,8 +51,8 @@ export class PhotosComponent implements OnInit {
         this.result_1 = [];
         this.result_2 = [];
         this.result_3 = [];
-        this.photoService.getImages().subscribe((response) => {
-            this.photos = response
+        this.photoService.getImages(1, 99999).subscribe((response) => {
+            this.photos = response.results
             this.spliterData();
         }, () => {
             this.toastrService.error('', 'Wystąpił błąd podczas pobierania zdjęć', {
