@@ -15,6 +15,7 @@ export class HomeComponent implements OnInit {
     pageSize: number = 9;
     totalCount: number = 0;
     maxPages: number = 1;
+    isOnlyPositioned: boolean = true;
 
     result_1: Photo[] = [];
     result_2: Photo[] = [];
@@ -39,7 +40,7 @@ export class HomeComponent implements OnInit {
 
 
     loadData() {
-        this.photoService.getImages(this.currentPage, this.pageSize).subscribe((response) => {
+        this.photoService.getImages(this.currentPage, this.pageSize,this.isOnlyPositioned).subscribe((response) => {
             this.response = response
             this.totalCount = response.count
             this.photos = response.results
