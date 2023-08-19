@@ -14,8 +14,9 @@ export class ImagesService {
     constructor(private http: HttpClient, private httpClient: HttpService) {
     }
 
-    getImages(page: number = 1, pageSize: number = 10): Observable<ApiResponse<Photo>> {
-        return this.httpClient.get(`api/photo/?page=${page}&pageSize=${pageSize}`)
+    getImages(page: number = 1, pageSize: number = 10,isOnlyPositioned: boolean = false): Observable<ApiResponse<Photo>> {
+        
+        return this.httpClient.get(`api/photo/?page=${page}&pageSize=${pageSize}&isOnlyPositioned=${isOnlyPositioned}`)
     }
     getPhotoRows(): Observable<any> {
         return this.httpClient.get(`api/photo/rows`)
