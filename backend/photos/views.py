@@ -35,7 +35,11 @@ class PhotoView(APIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get(self, request):
-        photos = PhotoService.get_photos()
+        photos = PhotoService.get_all_photos()
+
+        only_positioned = request.GET.get("isOnlyPositioned", False)
+        if only_positioned == "true":
+            photos = PhotoService.get_photos()
 
         paginator = CustomPagination()
         paginated_photos = paginator.paginate_queryset(photos, request)
