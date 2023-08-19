@@ -16,6 +16,7 @@ export class PhotosComponent implements OnInit {
                 private router: Router,
                 public photoService: ImagesService,
                 private toastrService: ToastrService) {
+
     }
 
     isDisabled: boolean = true

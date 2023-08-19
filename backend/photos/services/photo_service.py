@@ -4,8 +4,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import status
 from rest_framework.response import Response
 
-from photos.interfaces.photo_interface import PhotoInterface
 from photos.models import PhotoPositions, Photo, POSITIONED, UNPOSITIONED, NEW
+from photos.repository.photo_repository import PhotoRepository
 from photos.serializers import PhotoSerializer
 from photos.utils.photo_utils import (
     _convert_object_to_worst_quality,
@@ -45,7 +45,15 @@ def clean_positions(photo: str) -> None:
 class PhotoService:
     @staticmethod
     def get_photos():
-        return PhotoInterface.get()
+        return PhotoRepository.get()
+
+    @staticmethod
+    def get_rows():
+        return PhotoRepository.get_rows()
+
+    @staticmethod
+    def get_columns():
+        return PhotoRepository.get_columns()
 
     @staticmethod
     def create_photo(files):
@@ -54,7 +62,7 @@ class PhotoService:
             file = _convert_object_to_worst_quality(file, quality=70)
             name = _generator_photo_name()
 
-            image = PhotoInterface.create(photo_name=name, photo_file=file)
+            image = PhotoRepository.create(photo_name=name, photo_file=file)
 
             if image is None:
                 message = f"Cannot upload this photo"
@@ -75,7 +83,7 @@ class PhotoService:
                 try:
                     photo_id = photo["uuid"]
                     columns_photos.add(photo_id)
-                    PhotoInterface.update(
+                    PhotoRepository.update(
                         photo_id=photo_id,
                         column_id=column_id,
                         order_id=order,
@@ -87,7 +95,7 @@ class PhotoService:
             if str(photo.uuid) not in columns_photos:
                 try:
                     if photo.status != NEW:
-                        PhotoInterface.update(
+                        PhotoRepository.update(
                             photo_id=photo.uuid,
                             column_id=0,
                             order_id=i,
@@ -101,7 +109,7 @@ class PhotoService:
     def delete_photo(*, photo_id: str) -> Response:
         try:
             clean_positions(photo_id)
-            PhotoInterface.delete(photo_id=photo_id)
+            PhotoRepository.delete(photo_id=photo_id)
         except ObjectDoesNotExist:
             pass
         except Photo.DoesNotExist:
