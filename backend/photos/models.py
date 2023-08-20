@@ -22,15 +22,17 @@ class Photo(BaseModel):
         (POSITIONED, "positioned at last configuration"),
         (UNPOSITIONED, "not positioned"),
     ]
-    photo = models.ImageField(
+    photo: models.ImageField = models.ImageField(
         upload_to=upload_to,
         max_length=100,
         verbose_name="photos",
         validators=[FileExtensionValidator(["jpg", "jpeg"])],
     )
-    column_id = models.IntegerField(default=1)
-    order = models.IntegerField(default=0)
-    status = models.CharField(choices=STATUS_PHOTO, max_length=20, default=NEW)
+    column_id: models.IntegerField = models.IntegerField(default=1)
+    order: models.IntegerField = models.IntegerField(default=0)
+    status: models.CharField = models.CharField(
+        choices=STATUS_PHOTO, max_length=20, default=NEW
+    )
 
     def __str__(self):
         return f"{self.uuid} - {self.photo}"

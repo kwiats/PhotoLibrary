@@ -10,4 +10,3 @@ echo "Starting server"
 gunicorn --config gunicorn-cfg.py core.wsgi
 
 exec "$@"
-
