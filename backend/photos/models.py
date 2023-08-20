@@ -13,7 +13,7 @@ def upload_to(instance, filename):
 
 
 class PhotoPositions(BaseModel):
-    columns = models.JSONField(null=True)
+    columns: models.JSONField = models.JSONField(null=True)
 
 
 class Photo(BaseModel):
