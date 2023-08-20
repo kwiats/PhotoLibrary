@@ -36,9 +36,9 @@ jobs:
       - name: Checkout Code Repository
         uses: actions/checkout@v3
       - name: Run DB Migrations
-        run: docker-compose run --rm django python manage.py migrate
+        run: docker-compose run --rm backend python manage.py migrate
       - name: Run Django Tests
-        run: docker-compose run django pytest -s -v --no-migrations
+        run: docker-compose run backend pytest -s -v --no-migrations
 
   linters:
     runs-on: ubuntu-latest
@@ -47,9 +47,9 @@ jobs:
       - name: Checkout Code Repository
         uses: actions/checkout@v3
       - name: Flake8
-        run: docker-compose run django flake8 . --config=setup.cfg
+        run: docker-compose run backend flake8 . --config=setup.cfg
       - name: Isort
-        run: docker-compose run django isort . --settings-path=.isort.cfg
+        run: docker-compose run backend isort . --settings-path=.isort.cfg
 
   mypy:
     runs-on: ubuntu-latest
@@ -58,4 +58,4 @@ jobs:
       - name: Checkout Code Repository
         uses: actions/checkout@v3
       - name: Checkout mypy
-        run: docker-compose run django mypy . --config-file mypy.ini
+        run: docker-compose run backend mypy . --config-file mypy.ini
