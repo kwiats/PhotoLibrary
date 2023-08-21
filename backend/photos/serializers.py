@@ -8,8 +8,18 @@ class PhotoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Photo
-        ordering = ["-created_date"]
-        fields = ["uuid", "photo", "created_date", "column_id", "order", "status"]
+        ordering = ["-created_date", "order", "column_id"]
+        fields = [
+            "uuid",
+            "photo",
+            "created_date",
+            "column_id",
+            "order",
+            "status",
+            "style_column",
+            "style_size",
+            "style_side",
+        ]
 
 
 class PhotoPositionsSerializer(serializers.ModelSerializer):
