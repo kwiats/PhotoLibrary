@@ -89,10 +89,10 @@ WSGI_APPLICATION = "core.wsgi.application"
 DATABASES = {
     # "default": {
     #     "ENGINE": "django.db.backends.postgresql_psycopg2",
-    #     "NAME": os.environ.get("DB_NAME", ""),
-    #     "USER": os.environ.get("DB_USER", ""),
-    #     "PASSWORD": os.environ.get("DB_PASSWORD", ""),
-    #     "HOST": os.environ.get("DB_HOST", ""),
+    #     "NAME": os.environ.get("DB_NAME", "photo-library-ns"),
+    #     "USER": os.environ.get("DB_USER", "photo-library-ns"),
+    #     "PASSWORD": os.environ.get("DB_PASSWORD", "photo-library-ns#01"),
+    #     "HOST": os.environ.get("DB_HOST", "db"),
     #     "PORT": os.environ.get("DB_PORT", "5432"),
     # },
     "default": {
@@ -133,8 +133,10 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
-STATIC_URL = "/staticfiles/"
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+STATIC_URL = "/static/"
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
 
 MEDIA_URL = "/media/"
 
