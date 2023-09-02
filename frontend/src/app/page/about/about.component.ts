@@ -25,9 +25,7 @@ export class AboutComponent {
 
         if (this.messageForm.valid) {
             const data = this.messageForm.getRawValue()
-            this.authService.sendMail(data).subscribe((res: any) => {
-                console.log(res)
-            })
+            this.authService.sendMail(data)
         } else {
             this.toastrService.warning(
                 'Formularz jest trakcie budowania..', 'Błąd podczas wysyłania wiadomosci', {
