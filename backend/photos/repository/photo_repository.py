@@ -71,7 +71,7 @@ class PhotoRepository:
             return image
 
     @staticmethod
-    def update(*, photo_id: uuid.UUID, column_id, order_id, status: str = None) -> None:
+    def update(*, photo_id: uuid.UUID, column_id, order_id, status: str) -> None:
         with transaction.atomic():
             photo = Photo.objects.get(uuid=photo_id)
             photo.column_id = column_id

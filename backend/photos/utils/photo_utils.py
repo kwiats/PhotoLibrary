@@ -7,19 +7,19 @@ from django.core.exceptions import SuspiciousFileOperation
 from django.core.files.storage import FileSystemStorage
 
 
-def _convert_object_to_worst_quality(file, quality: int = 70):
+def _convert_object_to_worst_quality(file, quality: int = 70, format: str = "JPEG"):
     photo = Image.open(BytesIO(file.read()))
 
     photo = photo.convert("RGB")
 
     buffer = BytesIO()
-    photo.save(buffer, format="JPEG", quality=quality)
+    photo.save(buffer, format=format, quality=quality)
     buffer.seek(0)
     return buffer
 
 
-def _generator_photo_name():
-    return str(uuid.uuid4()) + ".jpg"
+def _generator_photo_name(format: str = "jpg"):
+    return "{}.{}".format(uuid.uuid4(), format)
 
 
 class CustomFileSystemStorage(FileSystemStorage):

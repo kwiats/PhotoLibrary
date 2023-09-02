@@ -1,3 +1,5 @@
+import json
+
 from django.http import JsonResponse
 from rest_framework import viewsets, status
 from rest_framework.decorators import api_view, permission_classes
@@ -6,8 +8,14 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticate
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from photos.models import PhotoPositions
-from photos.serializers import PhotoSerializer, PhotoPositionsSerializer
+from photos.models import PhotoPositions, FileRow, FileElement
+from photos.serializers import (
+    PhotoSerializer,
+    PhotoPositionsSerializer,
+    FileRowSerializer,
+    FileElementSerializer,
+)
+from photos.services.file_service import FileService
 from photos.services.photo_service import PhotoService
 
 
@@ -54,7 +62,7 @@ class PhotoView(APIView):
             return Response(
                 {"message": "No photos is uploaded "}, status=status.HTTP_404_NOT_FOUND
             )
-        created = PhotoService.create_photo(files)
+        created = FileService.create_photo(files)
         if created:
             return Response(
                 {"message": f"Uploaded {len(files)} files to server"},
@@ -135,4 +143,56 @@ class PhotoPositionViews(APIView):
 
         return Response(
             {"message": "Configuration saved successfully."}, status=status.HTTP_200_OK
+        )
+
+
+class FileRowsViews(APIView):
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def post(self, request):
+        rows = request.data.dict()
+        for index, row_data in enumerate(rows.values()):
+            row_entry = FileService.parse_to_entry(data=json.loads(row_data))
+            files = row_entry.files
+
+            obj, created = FileRow.objects.get_or_create(order=row_entry.order)
+
+            updated_obj = FileService.update_details_row(row=obj, new_row=row_entry)
+            row = FileService.update_rows(row=updated_obj, files=files)
+
+        return Response(
+            {"message": "Configuration saved successfully."}, status=status.HTTP_200_OK
+        )
+
+
+class FileViewSet(viewsets.ModelViewSet):
+    queryset = FileRow.objects.all()
+    serializer_class = FileRowSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+
+class FileElementsViewSet(viewsets.ModelViewSet):
+    queryset = FileElement.objects.filter(file__isnull=False).all()
+    serializer_class = FileElementSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+
+class FileElementView(APIView):
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def post(self, request, *args, **kwargs):
+        files = request.FILES.getlist("file")
+        if files is None:
+            return Response(
+                {"message": "No photos is uploaded "}, status=status.HTTP_404_NOT_FOUND
+            )
+        created = FileService.create_photo(files)
+        if created:
+            return Response(
+                {"message": f"Uploaded {len(files)} files to server"},
+                status=status.HTTP_200_OK,
+            )
+        return Response(
+            {"message": "We cannot add this photos"},
+            status=status.HTTP_405_METHOD_NOT_ALLOWED,
         )
