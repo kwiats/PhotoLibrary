@@ -1,8 +1,6 @@
 import {Component, ElementRef, HostListener, OnInit} from '@angular/core';
-import {Files, Photo} from "../core/images/models/photo.model";
+import {Files} from "../core/images/models/photo.model";
 import {ImagesService} from "../core/images/services/images.service";
-import {ToastrService} from "ngx-toastr";
-import {ApiResponse} from "../core/common/models/reponse.model";
 import {catchError, forkJoin, map, throwError} from "rxjs";
 
 @Component({
@@ -13,21 +11,11 @@ import {catchError, forkJoin, map, throwError} from "rxjs";
 export class HomeComponent implements OnInit {
     currentPage = 1;
     pageSize: number = 9;
-    totalCount: number = 0;
     maxPages: number = 1;
-    isOnlyPositioned: boolean = true;
     files: Files[] = [{className: "", files: [{}], order: 0, styleColumn: 0, uuid: ""}]
-
-    result_1: Photo[] = [];
-    result_2: Photo[] = [];
-    result_3: Photo[] = [];
-
-    photos: Photo[] = [];
-    // @ts-ignore
-    response: ApiResponse<Photo>;
+    response: any
 
     constructor(private photoService: ImagesService,
-                private toastrService: ToastrService,
                 private elementRef: ElementRef) {
         if (window.innerHeight <= 768) {
             this.pageSize = 14
@@ -48,6 +36,7 @@ export class HomeComponent implements OnInit {
                 return throwError('Error occurred while fetching data.');
             }),
             map(([fileRowsResponse]) => {
+                this.response = fileRowsResponse
                 this.processFileRowsResponse(fileRowsResponse);
             })
         ).subscribe();
@@ -72,44 +61,10 @@ export class HomeComponent implements OnInit {
         this.files = response.results;
     }
 
-    handleLoadError() {
-        this.toastrService.error('', 'Wystąpił błąd podczas pobierania zdjęć', {
-            timeOut: 5000,
-            progressAnimation: 'decreasing'
-        });
-    }
     getFileWidth(fileCount: number): string {
         return `calc(100% / ${fileCount})`;
     }
 
-    // loadData() {
-    //     this.photoService.getImages(this.currentPage, this.pageSize,this.isOnlyPositioned).subscribe((response) => {
-    //         this.response = response
-    //         this.totalCount = response.count
-    //         this.photos = response.results
-    //         this.maxPages = response.pages
-    //         this.spliterData()
-    //     }, () => {
-    //         this.toastrService.error('', 'Wystąpił błąd podczas pobierania zdjęć', {
-    //             timeOut: 5000,
-    //             progressAnimation: 'decreasing'
-    //         });
-    //     })
-    //
-    //
-    // }
-
-    spliterData() {
-        this.photos.forEach((item: any) => {
-            if (item.column_id === 1) {
-                this.result_1.push(item);
-            } else if (item.column_id === 2) {
-                this.result_2.push(item);
-            } else {
-                this.result_3.push(item)
-            }
-        })
-    }
 
     @HostListener('window:scroll', [])
     onScroll() {

@@ -157,6 +157,8 @@ export class NewphotoComponent {
             if (fileIndex !== -1) {
                 e.files.splice(fileIndex, 1);
                 e.files.push({})
+                element.status = 'UNPOSITIONED'
+                this.unpositioned_files.push(element)
                 break;
             }
         }

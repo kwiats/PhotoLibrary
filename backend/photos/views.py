@@ -150,6 +150,7 @@ class FileRowsViews(APIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
 
     def post(self, request):
+        FileService.unposition_files()
         rows = request.data.dict()
         for index, row_data in enumerate(rows.values()):
             row_entry = FileService.parse_to_entry(data=json.loads(row_data))
