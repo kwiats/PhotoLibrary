@@ -1,0 +1,113 @@
+<app-header></app-header>
+<div class="container">
+    <div class="input-group mb-3">
+        <div class="custom-file">
+            <input type="file" class="custom-file-input" id="inputGroupFile01" multiple="true"
+                   (change)="selectFiles($event)">
+            <label class="custom-file-label" for="inputGroupFile01">Wybierz pliki</label>
+        </div>
+        <div class="input-group-append">
+            <button type="button" class="btn btn-primary" [disabled]="isDisabled" (click)="uploadFiles()">Wyślij
+            </button>
+        </div>
+    </div>
+    <div class="file-count text-center">
+        <p>{{ selectedFiles.length }} plik(i/ów) wybranych</p>
+    </div>
+    <div class="save-position text-center">
+        <div>
+            <button type="button" class="btn btn-primary" (click)="savePositions()">Zapisz ustawienie</button>
+        </div>
+    </div>
+</div>
+
+<div class="columns" cdkDropListGroup>
+    <div class="other-column">
+        <div cdkDropList class="row-list" [cdkDropListData]="new_files"
+             (cdkDropListDropped)="dropOther($event)">
+            <div class="row-box" *ngFor="let file of new_files" cdkDrag [cdkDragData]="file">
+                <div class="row-box-placeholder" *cdkDragPlaceholder></div>
+                <img width="150" [src]="file.file" alt="{{file.uuid}}">
+            </div>
+        </div>
+    </div>
+    <div class="main-column">
+        <div *ngFor="let row of files" [cdkDropListData]="row.files"
+             cdkDropList cdkDropListOrientation="horizontal"
+             class="row-list"
+             (cdkDropListDropped)="drop(row, $event)">
+            <div class="row-box" *ngFor="let fileRow of row.files" cdkDrag [cdkDragDisabled]="!fileRow.file">
+                <div class="style-option" *ngIf="fileRow.isDropped">
+                    <div class="style column">
+                        <img class="button-icon" [class.active-global]="row.styleColumn === 0"
+                             (click)="changeStyleColumn(row, fileRow,0)"
+                             width="20"
+                             height="20"
+                             src="assets/icons/one-column.png">
+                        <img class="button-icon" [class.active-global]="row.styleColumn === 1"
+                             (click)="changeStyleColumn(row, fileRow,1)"
+                             width="20"
+                             height="20"
+                             src="assets/icons/two-columns.png">
+                        <img class="button-icon" [class.active-global]="row.styleColumn === 2"
+                             (click)="changeStyleColumn(row, fileRow,2)"
+                             width="20"
+                             height="20"
+                             src="assets/icons/three-columns.png">
+                    </div>
+                    <div class="style size" *ngIf="row.styleColumn === 0">
+                        <img class="button-icon" [class.active]="fileRow.styleSize === 0 "
+                             (click)="changeStyleSize(row.files, fileRow,0)"
+                             width="20"
+                             height="20"
+                             src="assets/icons/full-hight.png">
+                        <img class="button-icon" [class.active]="fileRow.styleSize === 1 "
+                             (click)="changeStyleSize(row.files, fileRow,1)"
+                             width="20"
+                             height="20"
+                             src="assets/icons/full-widht.png">
+                    </div>
+                    <div class="style confirm">
+
+                        <img class="button-icon" (click)="deleteFile(fileRow)"
+                             width="20"
+                             height="20"
+                             src="assets/icons/trash-solid.svg">
+                        <img class="button-icon" (click)="confirmStyle(fileRow)"
+                             width="20"
+                             height="20"
+                             src="assets/icons/check-solid.svg">
+                    </div>
+                </div>
+                <div class="row-box-placeholder" *cdkDragPlaceholder></div>
+                <img class="file-image" [id]="fileRow.uuid" (click)="swipeFile(fileRow, row)" (mouseover)='over(fileRow)' [class.active]="fileRow.isDropped" width="200" (dblclick)="openOptions(fileRow, row)" alt="{{fileRow.uuid}}"
+                     [src]="fileRow.file"></div>
+        </div>
+        <div class="add-row">
+            <button (click)="addRow()">Add new row</button>
+        </div>
+    </div>
+    <div class="other-column">
+        <div cdkDropList class="row-list" [cdkDropListData]="unpositioned_files"
+             (cdkDropListDropped)="dropOther($event)">
+            <div class="row-box" *ngFor="let file of unpositioned_files" cdkDrag [cdkDragData]="file">
+                <div class="row-box-placeholder" *cdkDragPlaceholder></div>
+                <img width="150" [src]="file.file" alt="{{file.uuid}}">
+            </div>
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>
+
+
+<!--<div class="preview">-->
+<!--    <div class="file-row" *ngFor="let row of files">-->
+<!--        <div class="file" *ngFor="let fileRow of row.files">-->
+<!--            <img alt="{{fileRow.uuid}}" [style.max-width.px]="getFileWidth(row.files.length)" class="element"-->
+<!--                 [class.full-height]="fileRow.styleSize === 1 && row.files.length === 1"-->
+<!--                 [class.full-width]="fileRow.styleSize === 0 && row.files.length === 1"-->
+<!--                 [src]="fileRow.file">-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+<!--<app-footer></app-footer>-->

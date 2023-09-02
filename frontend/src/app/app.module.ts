@@ -20,9 +20,10 @@ import {AboutComponent} from './page/about/about.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import {ToastrModule} from 'ngx-toastr';
-import {HashLocationStrategy, LocationStrategy} from "@angular/common";
+import {HashLocationStrategy, LocationStrategy, NgOptimizedImage} from "@angular/common";
 import {LoadingComponent} from './core/addons/components/loading/loading.component';
 import {LoadingInterceptor} from "./core/addons/interceptor/loading.interceptor";
+import { NewphotoComponent } from './newphoto/newphoto.component';
 
 @NgModule({
     declarations: [
@@ -34,6 +35,7 @@ import {LoadingInterceptor} from "./core/addons/interceptor/loading.interceptor"
         AuthenticationComponent,
         AboutComponent,
         LoadingComponent,
+        NewphotoComponent,
 
     ],
     imports: [
@@ -50,6 +52,7 @@ import {LoadingInterceptor} from "./core/addons/interceptor/loading.interceptor"
         RouterModule,
         FormsModule,
         ReactiveFormsModule,
+        NgOptimizedImage,
     ],
     providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}, {
         provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true

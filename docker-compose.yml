@@ -13,8 +13,6 @@ services:
       - static:/code/static/
     ports:
       - "8080:8000"
-    env_file:
-      - environments.env
 
   frontend:
     build:
@@ -23,8 +21,7 @@ services:
       - "88:80"
     depends_on:
       - backend
-    env_file:
-      - environments.env
+
   app:
     image: 'jc21/nginx-proxy-manager:latest'
     container_name: nginxproxymanager
@@ -38,9 +35,31 @@ services:
       - '81:81'
     networks:
       - proxiable
-
+  db:
+    image: postgres
+    container_name: local_pgdb
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER:
+      POSTGRES_PASSWORD:
+    volumes:
+      - local_pgdata:/var/lib/postgresql/data
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin4_container
+    restart: always
+    ports:
+      - "83:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL:
+      PGADMIN_DEFAULT_PASSWORD:
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
 
 volumes:
   media:
   static:
-
+  local_pgdata:
+  pgadmin-data:

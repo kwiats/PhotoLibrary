@@ -1,21 +1,32 @@
 <app-header></app-header>
 
-<div class="container" (scroll)="onScroll()">
-  <div class="column">
-    <div class="photo" *ngFor="let photo of result_1">
-      <img alt="{{photo.uuid}}" src="{{readFile(photo.photo)}}">
+<!--<div class="container" (scroll)="onScroll()">-->
+<!--  <div class="column">-->
+<!--    <div class="photo" *ngFor="let photo of result_1">-->
+<!--      <img alt="{{photo.uuid}}" src="{{readFile(photo.photo)}}">-->
+<!--    </div>-->
+<!--  </div>-->
+<!--  <div class="column">-->
+<!--    <div class="photo" *ngFor="let photo of result_2">-->
+<!--      <img alt="{{photo.uuid}}" src="{{readFile(photo.photo)}}">-->
+<!--    </div>-->
+<!--  </div>-->
+<!--  <div class="column">-->
+<!--    <div class="photo" *ngFor="let photo of result_3">-->
+<!--      <img alt="{{photo.uuid}}" src="{{readFile(photo.photo)}}">-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+
+<div class="preview">
+    <div class="file-row" *ngFor="let row of files">
+        <div class="file" *ngFor="let fileRow of row.files">
+            <img alt="{{fileRow.uuid}}" [style.max-width.px]="getFileWidth(row.files.length)" class="element"
+                 [class.full-height]="fileRow.styleSize === 1 && row.files.length === 1"
+                 [class.full-width]="fileRow.styleSize === 0 && row.files.length === 1"
+                 [src]="fileRow.file">
+        </div>
     </div>
-  </div>
-  <div class="column">
-    <div class="photo" *ngFor="let photo of result_2">
-      <img alt="{{photo.uuid}}" src="{{readFile(photo.photo)}}">
-    </div>
-  </div>
-  <div class="column">
-    <div class="photo" *ngFor="let photo of result_3">
-      <img alt="{{photo.uuid}}" src="{{readFile(photo.photo)}}">
-    </div>
-  </div>
 </div>
 
 <app-footer></app-footer>
