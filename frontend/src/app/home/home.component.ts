@@ -1,9 +1,9 @@
 import {Component, ElementRef, HostListener, OnInit} from '@angular/core';
-import {Photo} from "../core/images/models/photo.model";
+import {Files, Photo} from "../core/images/models/photo.model";
 import {ImagesService} from "../core/images/services/images.service";
-import {environment} from "../../environments/environment";
 import {ToastrService} from "ngx-toastr";
 import {ApiResponse} from "../core/common/models/reponse.model";
+import {catchError, forkJoin, map, throwError} from "rxjs";
 
 @Component({
     selector: 'app-home',
@@ -16,6 +16,7 @@ export class HomeComponent implements OnInit {
     totalCount: number = 0;
     maxPages: number = 1;
     isOnlyPositioned: boolean = true;
+    files: Files[] = [{className: "", files: [{}], order: 0, styleColumn: 0, uuid: ""}]
 
     result_1: Photo[] = [];
     result_2: Photo[] = [];
@@ -38,23 +39,65 @@ export class HomeComponent implements OnInit {
         this.loadData()
     }
 
-
     loadData() {
-        this.photoService.getImages(this.currentPage, this.pageSize,this.isOnlyPositioned).subscribe((response) => {
-            this.response = response
-            this.totalCount = response.count
-            this.photos = response.results
-            this.maxPages = response.pages
-            this.spliterData()
-        }, () => {
-            this.toastrService.error('', 'Wystąpił błąd podczas pobierania zdjęć', {
-                timeOut: 5000,
-                progressAnimation: 'decreasing'
-            });
-        })
-
-
+        forkJoin([
+            this.photoService.getFileRows()
+        ]).pipe(
+            catchError(() => {
+                // this.handleLoadError();
+                return throwError('Error occurred while fetching data.');
+            }),
+            map(([fileRowsResponse]) => {
+                this.processFileRowsResponse(fileRowsResponse);
+            })
+        ).subscribe();
     }
+
+    processFileRowsResponse(response: any) {
+        // @ts-ignore
+        response.results.forEach(element => {
+            element.files.sort((a: any, b: any) => a.styleSide - b.styleSide);
+
+            const expectedFilesCount = element.styleColumn + 1;
+            // @ts-ignore
+            const existingFileSides = element.files.map(file => file.styleSide);
+
+            for (let side = 0; side < expectedFilesCount; side++) {
+                if (!existingFileSides.includes(side)) {
+                    element.files.splice(side, 0, {styleSide: side});
+                }
+            }
+        });
+
+        this.files = response.results;
+    }
+
+    handleLoadError() {
+        this.toastrService.error('', 'Wystąpił błąd podczas pobierania zdjęć', {
+            timeOut: 5000,
+            progressAnimation: 'decreasing'
+        });
+    }
+    getFileWidth(fileCount: number): string {
+        return `calc(100% / ${fileCount})`;
+    }
+
+    // loadData() {
+    //     this.photoService.getImages(this.currentPage, this.pageSize,this.isOnlyPositioned).subscribe((response) => {
+    //         this.response = response
+    //         this.totalCount = response.count
+    //         this.photos = response.results
+    //         this.maxPages = response.pages
+    //         this.spliterData()
+    //     }, () => {
+    //         this.toastrService.error('', 'Wystąpił błąd podczas pobierania zdjęć', {
+    //             timeOut: 5000,
+    //             progressAnimation: 'decreasing'
+    //         });
+    //     })
+    //
+    //
+    // }
 
     spliterData() {
         this.photos.forEach((item: any) => {
@@ -66,11 +109,6 @@ export class HomeComponent implements OnInit {
                 this.result_3.push(item)
             }
         })
-    }
-
-
-    readFile(file: string) {
-        return environment.apiUrl.slice(0, -1) + file
     }
 
     @HostListener('window:scroll', [])

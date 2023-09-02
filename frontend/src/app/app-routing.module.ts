@@ -5,6 +5,7 @@ import {HomeComponent} from "./home/home.component";
 import {AuthGuard} from "./core/auth/services/auth-guard.service";
 import {AuthenticationComponent} from "./authentication/authentication.component";
 import {AboutComponent} from "./page/about/about.component";
+import {NewphotoComponent} from "./newphoto/newphoto.component";
 
 const routes: Routes = [
     {
@@ -25,6 +26,10 @@ const routes: Routes = [
     {
         path: "home",
         component: HomeComponent,
+    },
+    {
+        path: "newphoto",
+        component: NewphotoComponent,
     },
     {
         path: 'page',

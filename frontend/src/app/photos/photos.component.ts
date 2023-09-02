@@ -1,10 +1,18 @@
 import {Component, OnInit} from '@angular/core';
-import {CdkDragDrop, moveItemInArray, transferArrayItem,} from '@angular/cdk/drag-drop';
+import {
+    CdkDrag,
+    CdkDragDrop,
+    CdkDragPlaceholder,
+    CdkDropList,
+    moveItemInArray,
+    transferArrayItem,
+} from '@angular/cdk/drag-drop';
 import {Photo} from '../core/images/models/photo.model';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ImagesService} from "../core/images/services/images.service";
 import {environment} from "../../environments/environment";
 import {ToastrService} from "ngx-toastr";
+import {NgFor} from "@angular/common";
 
 @Component({
     selector: 'app-photos',
@@ -18,6 +26,7 @@ export class PhotosComponent implements OnInit {
                 private toastrService: ToastrService) {
 
     }
+
 
     isDisabled: boolean = true
     selectedFiles: any[] = [];
@@ -61,6 +70,9 @@ export class PhotosComponent implements OnInit {
             });
         })
     }
+
+
+
 
     selectFiles(event: any): void {
         if (event.target.files) {
@@ -177,7 +189,7 @@ export class PhotosComponent implements OnInit {
 
     }
 
-    readFile(file: string) {
+    readFile(file: any) {
         return environment.apiUrl.slice(0, -1) + file
     }
 
@@ -210,4 +222,3 @@ export class PhotosComponent implements OnInit {
     }
 
 }
-
