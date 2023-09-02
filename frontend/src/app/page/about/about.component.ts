@@ -26,12 +26,14 @@ export class AboutComponent {
         if (this.messageForm.valid) {
             const data = this.messageForm.getRawValue()
             this.authService.sendMail(data)
+            this.messageForm.reset();
         } else {
-            this.toastrService.warning(
-                'Formularz jest trakcie budowania..', 'Błąd podczas wysyłania wiadomosci', {
+            this.toastrService.error(
+                '', 'Błąd podczas wysyłania wiadomosci', {
                     timeOut: 3000,
                     progressAnimation: 'decreasing'
                 });
+            this.messageForm.reset();
         }
 
 
