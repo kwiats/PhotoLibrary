@@ -26,4 +26,8 @@ export class AuthService {
             refreshToken
         }, 'application/json');
     }
+
+    sendMail(data: any): Observable<any> {
+        return this.http.post('api/send-email/', data, 'application/json')
+    }
 }
