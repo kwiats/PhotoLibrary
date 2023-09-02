@@ -18,8 +18,11 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
+from authentication.views import send_email
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/login/", include("authentication.urls")),
     path("api/photo/", include("photos.urls")),
+    path("api/send-email/", send_email, name="send-email"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
