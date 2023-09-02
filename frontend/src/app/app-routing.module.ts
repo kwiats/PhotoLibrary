@@ -17,7 +17,7 @@ const routes: Routes = [
             },
             {
                 path: "edit",
-                component: PhotosComponent,
+                component: NewphotoComponent,
                 canActivate: [AuthGuard]
             }
         ]
@@ -27,10 +27,10 @@ const routes: Routes = [
         path: "home",
         component: HomeComponent,
     },
-    {
-        path: "newphoto",
-        component: NewphotoComponent,
-    },
+    // {
+    //     path: "newphoto",
+    //     component: NewphotoComponent,
+    // },
     {
         path: 'page',
         children: [
