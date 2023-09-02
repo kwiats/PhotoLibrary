@@ -2,19 +2,51 @@
 <div class="about">
     <b>nataliamariastrzelczyk@gmail.com</b>
 </div>
-<form>
-    <label class="main-label">contact with me</label>
 
-    <label for="name">your name:</label>
-    <input type="text" id="name" name="name" required><br>
+<div class="container">
 
-    <label for="email">email:</label>
-    <input type="email" id="email" name="email" required><br>
+</div>
+<div class="contact-form">
+    <form *ngIf="messageForm" [formGroup]="messageForm" (ngSubmit)="sendMessage()">
+        <h2 class="main-label">Contact Me</h2>
 
-    <label for="message">message:</label><br>
-    <textarea id="message" name="message" rows="5" cols="50" required></textarea><br>
+        <div class="form-group">
+            <label for="name">Your Name:</label>
+            <input type="text" id="name" name="name" formControlName="name" class="form-control">
+            <div *ngIf="messageForm.get('name')?.hasError('required') && messageForm.get('name')?.touched"
+                 class="error-message">
+                Name is required.
+            </div>
+        </div>
 
-    <input type="submit" (click)="sendMessage()" value="send" class="submit-button">
-</form>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" formControlName="email" class="form-control">
+            <div *ngIf="messageForm.get('email')?.hasError('required') && messageForm.get('email')?.touched"
+                 class="error-message">
+                Email is required.
+            </div>
+            <div *ngIf="messageForm.get('email')?.hasError('email') && messageForm.get('email')?.touched"
+                 class="error-message">
+                Invalid email format.
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="message">Message:</label>
+            <textarea id="message" formControlName="message" rows="5" cols="50" class="form-control"></textarea>
+            <div *ngIf="messageForm?.get('message')?.hasError('required') && messageForm?.get('message')?.touched"
+                 class="error-message">
+                Message is required.
+            </div>
+        </div>
+
+        <div class="form-group">
+            <input type="submit" [disabled]="!messageForm.valid" value="Send" class="submit-button">
+        </div>
+    </form>
+</div>
+
+
 <app-footer></app-footer>
 <router-outlet></router-outlet>

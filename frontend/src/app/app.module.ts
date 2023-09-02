@@ -23,7 +23,7 @@ import {ToastrModule} from 'ngx-toastr';
 import {HashLocationStrategy, LocationStrategy, NgOptimizedImage} from "@angular/common";
 import {LoadingComponent} from './core/addons/components/loading/loading.component';
 import {LoadingInterceptor} from "./core/addons/interceptor/loading.interceptor";
-import { NewphotoComponent } from './newphoto/newphoto.component';
+import {NewphotoComponent} from './newphoto/newphoto.component';
 
 @NgModule({
     declarations: [
@@ -53,6 +53,7 @@ import { NewphotoComponent } from './newphoto/newphoto.component';
         FormsModule,
         ReactiveFormsModule,
         NgOptimizedImage,
+        FormsModule
     ],
     providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}, {
         provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true

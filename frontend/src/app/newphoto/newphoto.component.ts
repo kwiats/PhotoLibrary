@@ -158,6 +158,7 @@ export class NewphotoComponent {
                 e.files.splice(fileIndex, 1);
                 e.files.push({})
                 element.status = 'UNPOSITIONED'
+                element.isDropped = false
                 this.unpositioned_files.push(element)
                 break;
             }

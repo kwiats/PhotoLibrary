@@ -23,15 +23,18 @@
 
 <div class="columns" cdkDropListGroup>
     <div class="other-column">
+        <div class="header"><span>Nowe</span></div>
+
         <div cdkDropList class="row-list" [cdkDropListData]="new_files"
              (cdkDropListDropped)="dropOther($event)">
             <div class="row-box" *ngFor="let file of new_files" cdkDrag [cdkDragData]="file">
                 <div class="row-box-placeholder" *cdkDragPlaceholder></div>
-                <img width="150" [src]="file.file" alt="{{file.uuid}}">
+                <img width="100" [src]="file.file" alt="{{file.uuid}}">
             </div>
         </div>
     </div>
     <div class="main-column">
+        <div class="header"><span>Główny układ</span></div>
         <div *ngFor="let row of files" [cdkDropListData]="row.files"
              cdkDropList cdkDropListOrientation="horizontal"
              class="row-list"
@@ -80,19 +83,25 @@
                     </div>
                 </div>
                 <div class="row-box-placeholder" *cdkDragPlaceholder></div>
-                <img class="file-image" [id]="fileRow.uuid" (click)="swipeFile(fileRow, row)" (mouseover)='over(fileRow)' [class.active]="fileRow.isDropped" width="200" (dblclick)="openOptions(fileRow, row)" alt="{{fileRow.uuid}}"
+                <img class="file-image" [id]="fileRow.uuid" (click)="swipeFile(fileRow, row)"
+                     (mouseover)='over(fileRow)' [class.active]="fileRow.isDropped" width="200"
+                     (dblclick)="openOptions(fileRow, row)" alt="{{fileRow.uuid}}"
                      [src]="fileRow.file"></div>
         </div>
         <div class="add-row">
-            <button (click)="addRow()">Add new row</button>
+            <button type="button" class="btn btn-primary" (click)="addRow()">
+                <img width="16" src="assets/icons/plus-solid.svg">
+                Dodaj nowy rząd
+            </button>
         </div>
     </div>
     <div class="other-column">
+        <div class="header"><span>Nieprzypisane</span></div>
         <div cdkDropList class="row-list" [cdkDropListData]="unpositioned_files"
              (cdkDropListDropped)="dropOther($event)">
             <div class="row-box" *ngFor="let file of unpositioned_files" cdkDrag [cdkDragData]="file">
                 <div class="row-box-placeholder" *cdkDragPlaceholder></div>
-                <img width="150" [src]="file.file" alt="{{file.uuid}}">
+                <img width="100" [src]="file.file" alt="{{file.uuid}}">
             </div>
         </div>
     </div>
