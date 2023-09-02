@@ -1,5 +1,6 @@
 from typing import Union
 
+from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import status
 from rest_framework.response import Response
 
@@ -55,8 +56,8 @@ class FileService:
     def create_photo(files):
         result = []
         for file in files:
-            file = _convert_object_to_worst_quality(file, quality=70, format="WebP")
-            name = _generator_photo_name("webp")
+            file = _convert_object_to_worst_quality(file, quality=99, format="JPEG")
+            name = _generator_photo_name("jpg")
 
             obj = FileRepository.create(file_name=name, file=file)
 
@@ -67,3 +68,18 @@ class FileService:
             result.append(obj)
 
         return FileElementSerializer(result, many=True).data
+
+    @staticmethod
+    def unposition_files():
+        unpositioned_order = 0
+        files = FileElement.objects.all()
+        for file in files:
+            try:
+                if file.status != FileElement.StatusPhotoChoices.NEW:
+                    FileRepository.update(
+                        file_uuid=file.uuid,
+                        status=FileElement.StatusPhotoChoices.UNPOSITIONED,
+                    )
+                    unpositioned_order += 1
+            except ObjectDoesNotExist:
+                pass
